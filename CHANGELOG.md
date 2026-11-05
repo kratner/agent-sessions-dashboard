@@ -2,7 +2,9 @@
 
 Each version starts with a short summary, then the details. The same text becomes that version's notes on the [Releases page](https://github.com/kratner/agent-workspace-dashboard/releases).
 
-## Unreleased
+## 0.7.0 (2026-11-05)
+
+Agent Workspace Dashboard is on the VS Code Marketplace, published by Four Ounces. Accept this update once; it removes the old hand-installed copy, and from then on VS Code keeps the extension up to date.
 
 - **On the VS Code Marketplace**, as `fourounces.agent-workspace-dashboard`. Versions up to 0.6.2 were
   `kratner.agent-workspace-dashboard`, which VS Code treats as a different extension: the first time this
