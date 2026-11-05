@@ -43,8 +43,11 @@ Then reload the window.
 ### Uninstall
 
 ```sh
-code --uninstall-extension kratner.agent-workspace-dashboard
+code --uninstall-extension fourounces.agent-workspace-dashboard
 ```
+
+Versions up to 0.6.2 were published as `kratner.agent-workspace-dashboard`. Uninstall that ID too if
+it's still installed.
 
 ## Releasing
 
