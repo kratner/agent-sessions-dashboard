@@ -19,49 +19,39 @@ See every Claude Code session you have running, as a Kanban board or a list, and
 - **Click to open.** Clicking a card brings a session in this window to the front: its Claude Code tab, or the terminal it's running in. An ended session is resumed. For a session running elsewhere, it tells you where.
 - **Resume ended sessions.** **Copy resume** puts the `claude --resume` command for that session on your clipboard.
 - **Two looks.** The Four Ounces look by default (warm ink, or warm paper when VS Code uses a light theme, with Old Gold marking what needs you), or follow your VS Code color theme.
-- **Easy to install and update.** One line installs it; after that it checks for new releases and updates itself on request.
-- **Read-only and local.** It reads files Claude Code already writes on your machine. It never starts, stops or changes a session, and none of your data leaves the machine. The history index is stored locally, in the extension's own storage. Its only network request is the daily update check, which asks GitHub for the latest release; you can turn it off.
+- **Easy to install and update.** Install it from the VS Code Marketplace, which keeps it up to date.
+- **Read-only and local.** It reads files Claude Code already writes on your machine. It never starts, stops or changes a session, and none of your data leaves the machine. The history index is stored locally, in the extension's own storage. Its only network request is the daily update check, which asks GitHub for the latest release and sends nothing about you; you can turn it off.
 
 ![List view](media/screenshots/list-brand.png)
 
 ## Install
 
-The extension isn't on the Visual Studio Marketplace yet, so it's installed from this repository's [Releases](https://github.com/kratner/agent-workspace-dashboard/releases). Run one line:
-
-**Windows** (PowerShell):
-
-```powershell
-irm https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/main/scripts/install.ps1 | iex
-```
-
-**macOS / Linux**:
+Install it from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=fourounces.agent-workspace-dashboard): in VS Code, open the Extensions view, search for **Agent Workspace Dashboard** and click **Install**. Or run:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/main/scripts/install.sh | sh
+code --install-extension fourounces.agent-workspace-dashboard
 ```
 
-Then run **Developer: Reload Window** in VS Code.
+**Without the Marketplace** (Cursor, VSCodium and other editors that use Open VSX, or an offline machine): download the `.vsix` from the [latest release](https://github.com/kratner/agent-workspace-dashboard/releases/latest), then run `code --install-extension <file>.vsix`. Or in VS Code: Extensions view → **…** menu → **Install from VSIX…**
 
-The installer:
+The one-line installers still work, too. They download the latest release, check it against the SHA-256 checksum GitHub publishes, and install it:
 
-1. downloads the latest release
-2. checks it against the SHA-256 checksum GitHub publishes
-3. installs it with VS Code's `code` command
-
-If `code` isn't on your PATH on macOS, run **Shell Command: Install 'code' command in PATH** in VS Code first.
-
-**Manual install:** download the `.vsix` from the [latest release](https://github.com/kratner/agent-workspace-dashboard/releases/latest), then run `code --install-extension <file>.vsix`. Or in VS Code: Extensions view → **…** menu → **Install from VSIX…**
+- **Windows** (PowerShell): `irm https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/main/scripts/install.ps1 | iex`
+- **macOS / Linux**: `curl -fsSL https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/main/scripts/install.sh | sh`
 
 To build from source instead, see [DEVELOPMENT.md](DEVELOPMENT.md#install-from-source).
 
+**Upgrading from 0.6.x?** Earlier versions were installed by hand as `kratner.agent-workspace-dashboard`. The first time the new version starts, it removes that old copy and asks you to reload the window.
+
 ## Updates
 
-- **Automatic check:** about once a day, the extension asks GitHub whether there's a newer release. If there is, a notification offers:
-  - **Update:** downloads it, verifies the checksum, installs it, and offers to reload the window.
+- **From the Marketplace:** VS Code updates the extension by itself.
+- **Installed from a `.vsix`:** about once a day the extension asks GitHub whether there's a newer release. If there is, a notification offers:
+  - **Update:** installs it from the Marketplace, so VS Code keeps it updated from then on. If the Marketplace can't be reached, it downloads the release instead, verifies the checksum and installs that.
   - **Release Notes.**
   - **Skip This Version.**
-- **Any time:** run **Agent Workspace: Check for Updates**, or run the install line again.
-- **To turn the automatic check off,** set `agentWorkspace.checkForUpdates` to `false`.
+- **Any time:** run **Agent Workspace: Check for Updates**.
+- **To turn the daily check off,** set `agentWorkspace.checkForUpdates` to `false`. Marketplace installs don't need it.
 
 ## Getting started
 

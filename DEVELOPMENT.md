@@ -66,12 +66,16 @@ Releases are built by GitHub Actions (`.github/workflows/release.yml`), not on a
 - the changelog has the section
 - the tests pass
 
-The tag starts the Release workflow. It checks that the tag matches `package.json`, runs `npm ci`, `npm test` and `npm run package`, then creates the GitHub release:
+The tag starts the Release workflow. It checks that the tag matches `package.json`, runs `npm ci`, `npm test` and `npm run package`, publishes the `.vsix` to the VS Code Marketplace, then creates the GitHub release:
 
 - **Attached:** the `.vsix`. GitHub publishes a SHA-256 for it.
 - **Notes:** built from the changelog by `scripts/release-notes.mjs`. `npm run release` prints a preview before it tags.
 
-Installed copies pick it up through their daily update check (`src/update/`), and `scripts/install.ps1` / `install.sh` install it fresh. Both the installers and the update check verify the SHA-256 before installing.
+VS Code updates Marketplace installs itself. Copies installed from a `.vsix` pick the release up through their daily update check (`src/update/`), which installs it from the Marketplace (falling back to the checksum-verified `.vsix`), and `scripts/install.ps1` / `install.sh` install it fresh.
+
+**Marketplace publishing** uses Trusted Publishing (OIDC), so no access token is stored anywhere. The `fourounces` publisher at [marketplace.visualstudio.com/manage](https://marketplace.visualstudio.com/manage) has a Trusted Publishing policy for owner `kratner`, repository `agent-workspace-dashboard`, workflow `release.yml`. The workflow needs `permissions: id-token: write`. A published version number can never be reused, so a bad release is fixed by releasing the next version.
+
+**Testing a build before it's public:** install the `.vsix` that `npm run package` makes. Give it a version above the published one, or VS Code may auto-update over it from the Marketplace.
 
 ### Writing the changelog entry
 

@@ -4,9 +4,12 @@ Each version starts with a short summary, then the details. The same text become
 
 ## Unreleased
 
-- The extension is now published as `fourounces.agent-workspace-dashboard` (it was `kratner.…`), ready for the
-  VS Code Marketplace. VS Code sees this as a new extension: uninstall the old copy once.
-
+- **On the VS Code Marketplace**, as `fourounces.agent-workspace-dashboard`. Versions up to 0.6.2 were
+  `kratner.agent-workspace-dashboard`, which VS Code treats as a different extension: the first time this
+  version starts, it removes the old copy and asks you to reload the window.
+- **Update** now installs from the Marketplace, so a hand-installed copy becomes one VS Code keeps updated. If
+  the Marketplace can't be reached, it falls back to the checksum-verified download from GitHub.
+- Releases publish to the Marketplace and GitHub together, from the same workflow.
 - **The Four Ounces mark at the bottom links to fourounces.live**, opening in your browser, as MingTab's About page does.
 
 ## 0.6.2 (2026-10-30)

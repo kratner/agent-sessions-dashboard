@@ -5,14 +5,17 @@ import { HistoryService } from './history/historyService';
 import { initLog, log } from './log';
 import { SessionStore } from './sessionStore';
 import { ClaudeCodeSource, claudeConfigDir } from './sources/claudeCode';
+import { removeLegacyCopy } from './update/migrate';
 import { registerUpdater } from './update/updater';
 import type { AgentSession } from './shared/types';
 
 const HOUR_MS = 3_600_000;
 
-export function activate(context: vscode.ExtensionContext): void {
+export async function activate(context: vscode.ExtensionContext): Promise<void> {
   initLog(context);
-  log.info(`activated v${context.extension.packageJSON.version}`);
+  log.info(`activated ${context.extension.id} v${context.extension.packageJSON.version}`);
+  // An old pre-Marketplace copy still loaded would own the same commands: remove it and stop.
+  if (await removeLegacyCopy(context)) return;
   const config = () => vscode.workspace.getConfiguration('agentWorkspace');
   const endedWithinMs = () => Math.max(0, config().get<number>('endedWithinHours', 24)) * HOUR_MS;
 

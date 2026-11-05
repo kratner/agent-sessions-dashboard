@@ -43,3 +43,13 @@ test('sha256 matches the known digest of a file', async () => {
   fs.writeFileSync(file, 'abc');
   assert.equal(await sha256(file), 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');
 });
+
+test('finds the old kratner copy to remove, and never removes itself', async () => {
+  const { legacyCopies } = await import('../src/update/legacyId');
+  const installed = (ids: string[]) => (id: string) => ids.includes(id);
+  const both = installed(['kratner.agent-workspace-dashboard', 'fourounces.agent-workspace-dashboard']);
+  assert.deepEqual(legacyCopies('fourounces.agent-workspace-dashboard', both), ['kratner.agent-workspace-dashboard']);
+  assert.deepEqual(legacyCopies('FourOunces.agent-workspace-dashboard', both), ['kratner.agent-workspace-dashboard'], 'IDs are case-insensitive');
+  assert.deepEqual(legacyCopies('fourounces.agent-workspace-dashboard', installed(['fourounces.agent-workspace-dashboard'])), [], 'nothing to remove');
+  assert.deepEqual(legacyCopies('kratner.agent-workspace-dashboard', both), [], 'an old copy never removes itself');
+});

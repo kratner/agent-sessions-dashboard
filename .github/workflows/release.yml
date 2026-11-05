@@ -1,4 +1,6 @@
-# Builds and publishes a GitHub release when a version tag (v1.2.3) is pushed.
+# Builds a version tag (v1.2.3), publishes it to the VS Code Marketplace, then creates the GitHub
+# release. Marketplace first: a release on GitHub means the Marketplace has it too, which the
+# extension's own update check relies on.
 # Cut a release with `npm run release`, which checks everything and pushes the tag.
 name: Release
 
@@ -8,6 +10,9 @@ on:
 
 permissions:
   contents: write
+  # Marketplace Trusted Publishing: GitHub's OIDC token stands in for a stored access token.
+  # The fourounces publisher has a Trusted Publishing policy for this repo and release.yml.
+  id-token: write
 
 jobs:
   release:
@@ -37,6 +42,10 @@ jobs:
 
       # Typecheck, minified build, dependency-leak check, then the .vsix.
       - run: npm run package
+
+      # --skip-duplicate lets a failed run be re-run after the Marketplace step succeeded.
+      - name: Publish to the VS Code Marketplace
+        run: npx vsce publish --oidc --skip-duplicate --packagePath ./*.vsix
 
       - name: Release notes from CHANGELOG.md
         run: node scripts/release-notes.mjs "${GITHUB_REF_NAME#v}" > release-notes.md
