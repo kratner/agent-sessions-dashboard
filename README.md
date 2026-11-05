@@ -2,7 +2,7 @@
 
 # Agent Workspace Dashboard
 
-**By Keith Ratner** · [github.com/kratner](https://github.com/kratner)
+**A Four Ounces tool** · [Source on GitHub](https://github.com/kratner/agent-workspace-dashboard)
 
 See every Claude Code session you have running, as a Kanban board or a list, and spot the one that's waiting on you.
 
@@ -138,12 +138,12 @@ If you've set `CLAUDE_CONFIG_DIR`, the dashboard reads that folder instead of `~
 
 - **Releases:** every version, with its `.vsix` and notes, is on the [Releases page](https://github.com/kratner/agent-workspace-dashboard/releases).
 - **What changed:** see [CHANGELOG.md](CHANGELOG.md).
-- **What's next:** see [ROADMAP.md](ROADMAP.md). The next milestone is publishing to the Visual Studio Marketplace.
+- **What's next:** see [ROADMAP.md](ROADMAP.md).
 
-## Author
+## Credits
 
-Created by **Keith Ratner** ([github.com/kratner](https://github.com/kratner)). A **Four Ounces** project: the icon, colors and type come from the Four Ounces brand kit.
+A **Four Ounces** tool: the icon, colors and type come from the Four Ounces brand kit.
 
 ## License
 
-[MIT](LICENSE) © 2026 Keith Ratner. The bundled fonts, Inter and Archivo Black, are under the SIL Open Font License; see `licenses/`.
+[MIT](LICENSE) © 2026 Four Ounces. The bundled fonts, Inter and Archivo Black, are under the SIL Open Font License; see `licenses/`.

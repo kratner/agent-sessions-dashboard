@@ -10,20 +10,15 @@
 | 0.4.0 | 2026-10-23 | Search the full session history, including subagents |
 | 0.5.0 | 2026-10-23 | GitHub Releases built by Actions, one-line installers, in-extension update check |
 | 0.6.0 | 2026-10-25 | Four Ounces brand: ink and paper looks, Old Gold, Inter, new icon |
+| 0.7.0 | 2026-11-05 | On the VS Code Marketplace as `fourounces.agent-workspace-dashboard`; updates install from it |
 
 The "Waiting on you" column was confirmed working in real use on 2026-10-23. Claude Code's status files do report sessions waiting for approval, so no hook is needed.
 
-## Next milestone: publish to the Visual Studio Marketplace
+## Next
 
-Publish after a period of everyday use. The extension page is already prepared: icon, README with screenshots, changelog, MIT license, categories and keywords. Still to do:
-
-- [ ] Create a Marketplace publisher with ID `kratner` and display name **Keith Ratner**, so the extension page shows the publisher as Keith Ratner.
-- [ ] Create an Azure DevOps personal access token with Marketplace "Manage" scope, for `vsce publish`.
-- [ ] Decide whether to launch with the **Preview** badge (`"preview": true`).
-- [ ] Test on macOS, then drop "tested on Windows so far" from the README.
-- [ ] Bump to 1.0.0, or publish as 0.x preview.
-- [ ] Retire the GitHub update check for Marketplace installs, since VS Code updates those itself: default `agentWorkspace.checkForUpdates` to off, or skip the check when the extension came from the Marketplace. Keep GitHub Releases as the download for anyone installing the `.vsix` by hand.
+- [ ] Use it on macOS day to day, then drop "Tested on Windows so far" from the README. (0.7.0's upgrade path was tested on macOS in a throwaway VS Code profile.)
 - [ ] Optionally publish to [Open VSX](https://open-vsx.org) as well, for Cursor and VSCodium users.
+- [ ] Verified-publisher badge for Four Ounces: possible once the extension has been on the Marketplace for 6 months. The Marketplace blocked fourounces.live in the publisher profile, so the domain to verify is still open.
 
 ## 0.4.0: search your full session history (shipped)
 
