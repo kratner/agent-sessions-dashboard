@@ -34,12 +34,7 @@ code --install-extension fourounces.agent-workspace-dashboard
 
 **Without the Marketplace** (Cursor, VSCodium and other editors that use Open VSX, or an offline machine): download the `.vsix` from the [latest release](https://github.com/kratner/agent-workspace-dashboard/releases/latest), then run `code --install-extension <file>.vsix`. Or in VS Code: Extensions view → **…** menu → **Install from VSIX…**
 
-The one-line installers still work, too. They download the latest release, check it against the SHA-256 checksum GitHub publishes, and install it:
-
-- **Windows** (PowerShell): `irm https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/main/scripts/install.ps1 | iex`
-- **macOS / Linux**: `curl -fsSL https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/main/scripts/install.sh | sh`
-
-To build from source instead, see [DEVELOPMENT.md](DEVELOPMENT.md#install-from-source).
+There are also one-line installers for Windows and macOS/Linux, which check the download against the SHA-256 checksum GitHub publishes; see [DEVELOPMENT.md](DEVELOPMENT.md#one-line-installers). To build from source instead, see [DEVELOPMENT.md](DEVELOPMENT.md#install-from-source).
 
 **Upgrading from 0.6.x?** Earlier versions were installed by hand as `kratner.agent-workspace-dashboard`. The first time the new version starts, it removes that old copy and asks you to reload the window.
 

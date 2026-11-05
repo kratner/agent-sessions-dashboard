@@ -2,7 +2,16 @@
 
 How to build, release and extend the Agent Workspace Dashboard. The steps are the same on Windows and macOS.
 
-To *use* the extension, install it from Releases with the one-line installer in the [README](README.md#install). This page is for building it yourself.
+To *use* the extension, install it from the VS Code Marketplace (see the [README](README.md#install)). This page is for building it yourself.
+
+## One-line installers
+
+These download the latest release from GitHub, check it against the SHA-256 checksum GitHub publishes, and install it. Running one again updates.
+
+- **Windows** (PowerShell): `irm https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/main/scripts/install.ps1 | iex`
+- **macOS / Linux**: `curl -fsSL https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/main/scripts/install.sh | sh`
+
+They live here rather than in the README because the README ships inside the extension package, and the Marketplace's content scan rejects packages whose docs contain download-and-run commands like these.
 
 ## Install from source
 

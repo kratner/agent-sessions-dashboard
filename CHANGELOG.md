@@ -2,7 +2,7 @@
 
 Each version starts with a short summary, then the details. The same text becomes that version's notes on the [Releases page](https://github.com/kratner/agent-workspace-dashboard/releases).
 
-## 0.7.0 (2026-11-05)
+## 0.7.1 (2026-11-05)
 
 Agent Workspace Dashboard is on the VS Code Marketplace, published by Four Ounces. Accept this update once; it removes the old hand-installed copy, and from then on VS Code keeps the extension up to date.
 
@@ -13,6 +13,8 @@ Agent Workspace Dashboard is on the VS Code Marketplace, published by Four Ounce
   the Marketplace can't be reached, it falls back to the checksum-verified download from GitHub.
 - Releases publish to the Marketplace and GitHub together, from the same workflow.
 - **The Four Ounces mark at the bottom links to fourounces.live**, opening in your browser, as MingTab's About page does.
+- 0.7.0 was tagged but never published: the Marketplace's content scan rejected it over the one-line installer
+  commands in the README. Those now live in DEVELOPMENT.md, which isn't packaged.
 
 ## 0.6.2 (2026-10-30)
 
@@ -66,7 +68,7 @@ Waiting cards now say what the session is waiting for, and clicking a session ru
 Install the extension with one line, and get new versions without leaving VS Code. Every version is now published on the Releases page, built by GitHub Actions.
 
 - **Releases.** Each version is published on the repository's [Releases page](https://github.com/kratner/agent-workspace-dashboard/releases), with its `.vsix` and notes. GitHub Actions builds each release from its version tag.
-- **One-line install:** `irm …/install.ps1 | iex` on Windows, or `curl …/install.sh | sh` on macOS and Linux. It downloads the latest release, verifies its SHA-256 checksum and installs it. Running it again updates.
+- **One-line install** for Windows (PowerShell) and macOS/Linux (see DEVELOPMENT.md). It downloads the latest release, verifies its SHA-256 checksum and installs it. Running it again updates.
 - **Updates from inside VS Code.**
   - About once a day the extension checks for a newer release, and offers **Update**, **Release Notes** or **Skip This Version**.
   - **Update** downloads it, verifies the checksum, installs it and offers to reload.
