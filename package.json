@@ -1,8 +1,8 @@
 {
   "name": "agent-workspace-dashboard",
   "displayName": "Agent Workspace Dashboard",
-  "description": "See every Claude Code session you have running, as a Kanban board or a list, and spot the one that's waiting on you.",
-  "version": "0.7.2",
+  "description": "See every AI coding agent session you have running, as a Kanban board or a list, and spot the one that's waiting on you.",
+  "version": "0.7.3",
   "publisher": "fourounces",
   "author": {
     "name": "Four Ounces",
@@ -32,10 +32,10 @@
     "Other"
   ],
   "keywords": [
-    "claude",
-    "claude code",
-    "agents",
     "ai",
+    "agents",
+    "coding agents",
+    "llm",
     "sessions",
     "kanban",
     "dashboard"

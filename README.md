@@ -4,7 +4,9 @@
 
 **A Four Ounces tool** · [Source on GitHub](https://github.com/kratner/agent-workspace-dashboard)
 
-See every Claude Code session you have running, as a Kanban board or a list, and spot the one that's waiting on you.
+See every AI coding agent session you have running, as a Kanban board or a list, and spot the one that's waiting on you.
+
+Works with Claude Code today, and built so other agents can be added as sources.
 
 ![Kanban view: sessions grouped into Waiting on you, Working, Idle and Ended](media/screenshots/kanban-brand.png)
 
@@ -13,14 +15,14 @@ See every Claude Code session you have running, as a Kanban board or a list, and
 - **Kanban and List views.** Sessions are grouped by state: Waiting on you, Working, Idle and Ended. Switch views in the header; the dashboard remembers your choice for each workspace.
 - **Know what needs you.** A session waiting for your reply or approval gets its own column, a highlighted card and a count in the status bar. The card says what it's waiting for, such as a permission prompt or an open dialog.
 - **Search.** Filter either view as you type, by title, prompt, folder, where it runs or state. Matches are highlighted.
-- **Search your whole history.** Switch on **History** to search every past Claude Code session on the machine, including what its subagents did, and resume any of them.
+- **Search your whole history.** Switch on **History** to search every past agent session on the machine, including what its subagents did, and resume any of them.
 - **Live.** Cards move as sessions change state. You never need to refresh.
-- **Every session, wherever it runs.** It shows Claude Code panels in VS Code, the CLI in a terminal and background agents, across all your project folders.
-- **Click to open.** Clicking a card brings a session in this window to the front: its Claude Code tab, or the terminal it's running in. An ended session is resumed. For a session running elsewhere, it tells you where.
-- **Resume ended sessions.** **Copy resume** puts the `claude --resume` command for that session on your clipboard.
+- **Every session, wherever it runs.** It shows agents in VS Code panels, in a terminal and in the background, across all your project folders.
+- **Click to open.** Clicking a card brings a session in this window to the front: its editor tab, or the terminal it's running in. An ended session is resumed. For a session running elsewhere, it tells you where.
+- **Resume ended sessions.** **Copy resume** puts the agent's resume command for that session (for Claude Code, `claude --resume`) on your clipboard.
 - **Two looks.** The Four Ounces look by default (warm ink, or warm paper when VS Code uses a light theme, with Old Gold marking what needs you), or follow your VS Code color theme.
 - **Easy to install and update.** Install it from the VS Code Marketplace, which keeps it up to date.
-- **Read-only and local.** It reads files Claude Code already writes on your machine. It never starts, stops or changes a session, and none of your data leaves the machine. The history index is stored locally, in the extension's own storage. Its only network requests are for updates: copies installed from a `.vsix` ask GitHub once a day for the latest release, sending nothing about you (you can turn this off), and download it if you choose to update. On Windows it also asks PowerShell about running processes; see [How it works](#how-it-works).
+- **Read-only and local.** It reads files your agents already write on your machine. It never starts, stops or changes a session, and none of your data leaves the machine. The history index is stored locally, in the extension's own storage. Its only network requests are for updates: copies installed from a `.vsix` ask GitHub once a day for the latest release, sending nothing about you (you can turn this off), and download it if you choose to update. On Windows it also asks PowerShell about running processes; see [How it works](#how-it-works).
 
 ![List view](media/screenshots/list-brand.png)
 
@@ -132,7 +134,7 @@ To match sessions to running programs, it also looks up process information, rea
 
 - **The status files aren't an official API.** Claude Code's session status files are internal and undocumented, so a Claude Code update could change them. The dashboard reads them defensively: a status it doesn't recognise shows as Idle.
 - **Sessions in other windows or terminals.** The dashboard can't switch to another VS Code window or a terminal. It tells you where the session is running instead.
-- **Claude Code only, for now.** Other agent systems such as Copilot or ChatGPT can be added as sources later; see [DEVELOPMENT.md](DEVELOPMENT.md).
+- **Claude Code only, for now.** Other agents can be added as sources; see [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## Release notes and roadmap
 

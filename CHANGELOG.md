@@ -2,6 +2,12 @@
 
 Each version starts with a short summary, then the details. The same text becomes that version's notes on the [Releases page](https://github.com/kratner/agent-workspace-dashboard/releases).
 
+## 0.7.3 (2026-11-06)
+
+The listing now describes the dashboard as a tool for AI coding agents in general. It works with Claude Code today and is built so other agents can be added.
+
+- **Agent-neutral description and keywords** on the Marketplace listing and at the top of the README. The parts that say what it reads, and what it needs, still name Claude Code.
+
 ## 0.7.2 (2026-11-05)
 
 Updates are stricter and better explained. Marketplace installs no longer run the daily GitHub check, and a download from GitHub is installed only when it matches its published checksum.
