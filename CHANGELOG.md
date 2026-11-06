@@ -1,6 +1,14 @@
 # Changelog
 
-Each version starts with a short summary, then the details. The same text becomes that version's notes on the [Releases page](https://github.com/kratner/agent-workspace-dashboard/releases).
+Each version starts with a short summary, then the details. The same text becomes that version's notes on the [Releases page](https://github.com/kratner/agent-sessions-dashboard/releases).
+
+## 0.7.4 (2026-11-06)
+
+The new name now runs all the way through: settings, the GitHub repository and the links. Your settings carry over by themselves.
+
+- **Settings are now `agentSessions.*`** (were `agentWorkspace.*`). On first start, any values you set under the old names are copied to the new ones, in user and workspace settings; a value already set under a new name is left alone. The old entries stay in settings.json, inactive, and can be deleted.
+- **The GitHub repository is now [kratner/agent-sessions-dashboard](https://github.com/kratner/agent-sessions-dashboard).** Old links redirect, and copies installed from a `.vsix` still find new releases.
+- **Commands and the dashboard tab use the new IDs** (`agentSessions.openDashboard` and so on). If you bound a key to an old command ID, rebind it.
 
 ## 0.7.3 (2026-11-06)
 
@@ -49,7 +57,7 @@ A new icon that stands out on dark backgrounds, shown in the dashboard's header 
 
 Agent Workspace is now a Four Ounces project, and its look comes from the Four Ounces brand. The dashboard works the same way.
 
-![The Four Ounces look: warm ink, with Old Gold marking the sessions waiting on you](https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/v0.6.0/media/screenshots/kanban-brand.png)
+![The Four Ounces look: warm ink, with Old Gold marking the sessions waiting on you](https://raw.githubusercontent.com/kratner/agent-sessions-dashboard/v0.6.0/media/screenshots/kanban-brand.png)
 
 - **New colors.** Warm ink replaces black, and Old Gold replaces the yellow for sessions waiting on you, the History toggle and search highlights.
 - **A light version.** When VS Code uses a light theme, the dashboard switches to warm paper, with a darker gold for gold text so it stays readable.
@@ -83,7 +91,7 @@ Waiting cards now say what the session is waiting for, and clicking a session ru
 
 Install the extension with one line, and get new versions without leaving VS Code. Every version is now published on the Releases page, built by GitHub Actions.
 
-- **Releases.** Each version is published on the repository's [Releases page](https://github.com/kratner/agent-workspace-dashboard/releases), with its `.vsix` and notes. GitHub Actions builds each release from its version tag.
+- **Releases.** Each version is published on the repository's [Releases page](https://github.com/kratner/agent-sessions-dashboard/releases), with its `.vsix` and notes. GitHub Actions builds each release from its version tag.
 - **One-line install** for Windows (PowerShell) and macOS/Linux (see DEVELOPMENT.md). It downloads the latest release, verifies its SHA-256 checksum and installs it. Running it again updates.
 - **Updates from inside VS Code.**
   - About once a day the extension checks for a newer release, and offers **Update**, **Release Notes** or **Skip This Version**.
@@ -99,7 +107,7 @@ Install the extension with one line, and get new versions without leaving VS Cod
 
 Find any past Claude Code session, not just the ones on the board. Switch on **History** and search every session on the machine, including work done by subagents, then resume it with a click.
 
-![History search: past sessions below the current ones, with a match found inside a subagent](https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/v0.4.0/media/screenshots/history-brand.png)
+![History search: past sessions below the current ones, with a match found inside a subagent](https://raw.githubusercontent.com/kratner/agent-sessions-dashboard/v0.4.0/media/screenshots/history-brand.png)
 
 - **History search.** A **History** toggle next to the search box also searches every past Claude Code session on the machine.
   - It matches each session's title, folder and every prompt you typed, but not Claude's replies or tool output.
@@ -120,7 +128,7 @@ The first time you search with History on, the extension builds its index. You'l
 
 Search the dashboard. Type in the header to filter either view by title, prompt, folder, where a session runs or its state, with matches highlighted.
 
-![Searching for "api": matching sessions with the term highlighted](https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/v0.3.0/media/screenshots/search-brand.png)
+![Searching for "api": matching sessions with the term highlighted](https://raw.githubusercontent.com/kratner/agent-sessions-dashboard/v0.3.0/media/screenshots/search-brand.png)
 
 - **Search.** A search box in the header filters the Kanban and List views as you type.
   - It matches title, last prompt, folder, where the session runs and state.
@@ -142,7 +150,7 @@ Fixes for the extension page and the dashboard log, and the repository is now pu
 
 The dashboard gets the KR look (black panel, yellow for sessions waiting on you, Archivo type), plus a log for troubleshooting. The editor-theme look is still available as a setting.
 
-![The KR brand appearance: the Kanban board in black and yellow](https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/v0.2.1/media/screenshots/kanban-brand.png)
+![The KR brand appearance: the Kanban board in black and yellow](https://raw.githubusercontent.com/kratner/agent-sessions-dashboard/v0.2.1/media/screenshots/kanban-brand.png)
 
 - **KR brand appearance, now the default:**
   - black panel with the KR mark

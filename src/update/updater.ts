@@ -22,15 +22,15 @@ import { downloadVerified, isCheckDue, isNewer, latestRelease, vsixAsset } from 
 
 const STARTUP_DELAY_MS = 30_000;
 const RECHECK_EVERY_MS = 3_600_000;
-const LAST_CHECK_KEY = 'agentWorkspace.lastUpdateCheck';
-const SKIPPED_KEY = 'agentWorkspace.skippedVersion';
+const LAST_CHECK_KEY = 'agentSessions.lastUpdateCheck';
+const SKIPPED_KEY = 'agentSessions.skippedVersion';
 
 export function registerUpdater(context: vscode.ExtensionContext): vscode.Disposable[] {
   const source = installSource(context.extensionPath, context.extension.id);
   log.info(`installed from: ${source === 'gallery' ? 'the Marketplace (VS Code updates it; no daily check)' : source}`);
   const check = (manual: boolean) => checkForUpdates(context, manual).catch((err) => log.error('update check failed', err));
   const checkIfDue = () => {
-    const enabled = vscode.workspace.getConfiguration('agentWorkspace').get<boolean>('checkForUpdates', true);
+    const enabled = vscode.workspace.getConfiguration('agentSessions').get<boolean>('checkForUpdates', true);
     const last = context.globalState.get<number>(LAST_CHECK_KEY, 0);
     if (enabled && source !== 'gallery' && context.extensionMode === vscode.ExtensionMode.Production && isCheckDue(last, Date.now())) void check(false);
   };
@@ -39,7 +39,7 @@ export function registerUpdater(context: vscode.ExtensionContext): vscode.Dispos
   return [
     { dispose: () => clearTimeout(timer) },
     { dispose: () => clearInterval(hourly) },
-    vscode.commands.registerCommand('agentWorkspace.checkForUpdates', () => check(true)),
+    vscode.commands.registerCommand('agentSessions.checkForUpdates', () => check(true)),
   ];
 }
 

@@ -8,8 +8,8 @@ To *use* the extension, install it from the VS Code Marketplace (see the [README
 
 These download the latest release from GitHub, check it against the SHA-256 checksum GitHub publishes, and install it. Running one again updates.
 
-- **Windows** (PowerShell): `irm https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/main/scripts/install.ps1 | iex`
-- **macOS / Linux**: `curl -fsSL https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/main/scripts/install.sh | sh`
+- **Windows** (PowerShell): `irm https://raw.githubusercontent.com/kratner/agent-sessions-dashboard/main/scripts/install.ps1 | iex`
+- **macOS / Linux**: `curl -fsSL https://raw.githubusercontent.com/kratner/agent-sessions-dashboard/main/scripts/install.sh | sh`
 
 They live here rather than in the README because the README ships inside the extension package, and the Marketplace's content scan rejects packages whose docs contain download-and-run commands like these.
 
@@ -27,8 +27,8 @@ They live here rather than in the README because the README ships inside the ext
 ### Install
 
 ```sh
-git clone https://github.com/kratner/agent-workspace-dashboard.git
-cd agent-workspace-dashboard
+git clone https://github.com/kratner/agent-sessions-dashboard.git
+cd agent-sessions-dashboard
 npm install
 npm run package
 code --install-extension agent-sessions-dashboard-0.5.2.vsix --force
@@ -82,7 +82,7 @@ The tag starts the Release workflow. It checks that the tag matches `package.jso
 
 VS Code updates Marketplace installs itself. Copies installed from a `.vsix` pick the release up through their daily update check (`src/update/`), which installs it from the Marketplace (falling back to the checksum-verified `.vsix`), and `scripts/install.ps1` / `install.sh` install it fresh.
 
-**Marketplace publishing** uses Trusted Publishing (OIDC), so no access token is stored anywhere. The `fourounces` publisher at [marketplace.visualstudio.com/manage](https://marketplace.visualstudio.com/manage) has a Trusted Publishing policy for owner `kratner`, repository `agent-workspace-dashboard`, workflow `release.yml`. The workflow needs `permissions: id-token: write`. A published version number can never be reused, so a bad release is fixed by releasing the next version.
+**Marketplace publishing** uses Trusted Publishing (OIDC), so no access token is stored anywhere. The `fourounces` publisher at [marketplace.visualstudio.com/manage](https://marketplace.visualstudio.com/manage) has a Trusted Publishing policy for owner `kratner`, repository `agent-sessions-dashboard`, workflow `release.yml` (named `release-workflow`). If the repository is ever renamed again, add a policy for the new name before releasing. The workflow needs `permissions: id-token: write`. A published version number can never be reused, so a bad release is fixed by releasing the next version.
 
 **Testing a build before it's public:** install the `.vsix` that `npm run package` makes. Give it a version above the published one, or VS Code may auto-update over it from the Marketplace.
 
@@ -95,7 +95,7 @@ Each version's `CHANGELOG.md` section is written in this order:
 
 One or two sentences: what this release lets you do, for someone deciding whether to update.
 
-![Optional screenshot](https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/v0.6.0/media/screenshots/<file>.png)
+![Optional screenshot](https://raw.githubusercontent.com/kratner/agent-sessions-dashboard/v0.6.0/media/screenshots/<file>.png)
 
 - **The details**, one bullet per change.
 
@@ -132,7 +132,7 @@ v0.1.0 through v0.4.0 were released this way.
 - **The dashboard is empty.**
   - Check that `~/.claude` exists, or `CLAUDE_CONFIG_DIR` if you set it.
   - Check that a Claude Code session is running.
-  - Ended sessions only show for `agentWorkspace.endedWithinHours`, 24 hours by default.
+  - Ended sessions only show for `agentSessions.endedWithinHours`, 24 hours by default.
 
 ## Build
 

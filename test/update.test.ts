@@ -4,6 +4,7 @@ import * as os from 'node:os';
 import * as path from 'node:path';
 import { test } from 'node:test';
 import { sourceFromExtensionsJson } from '../src/update/installSource';
+import { settingsToCopy } from '../src/update/settingsRename';
 import { expectedSha256, isCheckDue, isNewer, sha256, vsixAsset } from '../src/update/releaseClient';
 
 test('the daily check is due after a day, including in a window that stayed open', () => {
@@ -76,4 +77,12 @@ test('the fallback download needs a published SHA-256, or nothing is installed',
   assert.throws(() => expectedSha256(asset(undefined)), /no SHA-256/);
   assert.throws(() => expectedSha256(asset(null)), /no SHA-256/);
   assert.throws(() => expectedSha256(asset('sha1:abc')), /no SHA-256/);
+});
+
+test('renamed settings: old values are copied only where the new name is unset', () => {
+  assert.deepEqual(settingsToCopy({ globalValue: 'vscode' }, {}), [{ scope: 'global', value: 'vscode' }]);
+  assert.deepEqual(settingsToCopy({ globalValue: 12, workspaceValue: 6 }, { globalValue: 48 }), [{ scope: 'workspace', value: 6 }], 'a value already set under the new name is kept');
+  assert.deepEqual(settingsToCopy({ globalValue: false }, undefined), [{ scope: 'global', value: false }], 'false is a value, not "unset"');
+  assert.deepEqual(settingsToCopy(undefined, undefined), [], 'nothing set, nothing copied');
+  assert.deepEqual(settingsToCopy({}, {}), []);
 });

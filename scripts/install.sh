@@ -1,11 +1,11 @@
 #!/bin/sh
 # Installs or updates Agent Sessions Dashboard from the latest GitHub release.
-#   curl -fsSL https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/main/scripts/install.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/kratner/agent-sessions-dashboard/main/scripts/install.sh | sh
 # macOS and Linux. Set VSCODE_CLI to use another VS Code-compatible CLI (e.g. code-insiders).
 set -eu
 
-REPO=kratner/agent-workspace-dashboard
-json=$(curl -fsSL -H 'User-Agent: agent-workspace-dashboard-installer' -H 'Accept: application/vnd.github+json' \
+REPO=kratner/agent-sessions-dashboard
+json=$(curl -fsSL -H 'User-Agent: agent-sessions-dashboard-installer' -H 'Accept: application/vnd.github+json' \
   "https://api.github.com/repos/$REPO/releases/latest")
 
 # Each release carries exactly one .vsix; pull its URL and published SHA-256 out of the JSON.

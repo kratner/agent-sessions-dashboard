@@ -10,9 +10,10 @@
 | 0.4.0 | 2026-10-23 | Search the full session history, including subagents |
 | 0.5.0 | 2026-10-23 | GitHub Releases built by Actions, one-line installers, in-extension update check |
 | 0.6.0 | 2026-10-25 | Four Ounces brand: ink and paper looks, Old Gold, Inter, new icon |
-| 0.7.1 | 2026-11-05 | On the VS Code Marketplace as `fourounces.agent-workspace-dashboard`; updates install from it |
+| 0.7.1 | 2026-11-05 | Prepared for the VS Code Marketplace; updates install from it (first published in 0.7.3) |
 | 0.7.2 | 2026-11-05 | Marketplace installs skip the GitHub check; fallback download requires its checksum; tested on macOS too |
 | 0.7.3 | 2026-11-06 | Renamed Agent Sessions Dashboard, on the Marketplace as `fourounces.agent-sessions-dashboard`; agent-neutral listing |
+| 0.7.4 | 2026-11-06 | Settings, command IDs and the GitHub repository renamed to match; old settings copied over |
 
 The "Waiting on you" column was confirmed working in real use on 2026-10-23. Claude Code's status files do report sessions waiting for approval, so no hook is needed.
 
@@ -38,7 +39,7 @@ Search extends from the sessions on the dashboard to every past Claude Code sess
 - **More than 150:** you get the 25 most recent first, with "Showing 25 of 340 matches, most recent first" and a **Show all 340 results** button.
 - **After Show all:** the first 150 appear, and the rest load in pages of 100 as you scroll. A common word never sends thousands of results to the webview at once.
 - **A new or narrower query** goes back to the short list.
-- **Setting:** `agentWorkspace.historyResultThreshold` (default 150, allowed 100–200). The short list size, 25, is fixed.
+- **Setting:** `agentSessions.historyResultThreshold` (default 150, allowed 100–200). The short list size, 25, is fixed.
 
 ### Subagent sessions: shown under their parent
 

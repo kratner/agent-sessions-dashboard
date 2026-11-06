@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agent Workspace icon grounds</title>
-<!-- Local comparison page for Agent Workspace's icon background: the board glyph
+<title>Agent Sessions icon grounds</title>
+<!-- Local comparison page for Agent Sessions's icon background: the board glyph
      (branding/icon/f-board-indigo.svg) recoloured and shown at real size in the dashboard header and
      VS Code. Same method as MingTab's branding/icon-ground/. Nothing here ships. -->
 <style>
@@ -45,7 +45,7 @@ h1 { font: 400 28px 'Archivo Black', sans-serif; letter-spacing: .02em; text-tra
 </head>
 <body>
 <main>
-  <h1>Agent Workspace icon grounds</h1>
+  <h1>Agent Sessions icon grounds</h1>
   <p class="lede">The same problem MingTab had: the dark indigo tile has a contrast of only 1.1 to 1.2 against the
     dashboard's dark header and VS Code's dark theme, so you see a gold board on a smudge. Each option below is shown at
     real size in the dashboard header in its four looks, in VS Code's Extensions list, and with its Four Ounces
@@ -73,8 +73,8 @@ const OPTIONS = [
 ];
 document.getElementById('options').innerHTML = OPTIONS.map((o) => {
   const icon = board(o.ground, o.ink);
-  const header = (cls, label) => `<div class="scene ${cls}"><div class="header"><img src="${icon}" alt=""><span>Agent Workspace</span></div><small>${label}</small></div>`;
-  const ext = (cls, label) => `<div class="scene ${cls}"><div class="ext"><img src="${icon}" alt=""><div><b>Agent Workspace Dashboard</b><em>kratner · Every Claude Code session on one board</em></div></div><small>${label}</small></div>`;
+  const header = (cls, label) => `<div class="scene ${cls}"><div class="header"><img src="${icon}" alt=""><span>Agent Sessions</span></div><small>${label}</small></div>`;
+  const ext = (cls, label) => `<div class="scene ${cls}"><div class="ext"><img src="${icon}" alt=""><div><b>Agent Sessions Dashboard</b><em>kratner · Every Claude Code session on one board</em></div></div><small>${label}</small></div>`;
   const fam = (cls, label) => `<div class="scene ${cls}"><div class="family"><img src="${icon}" alt=""><img src="${MINGTAB}" alt=""><img src="${SOCIAL}" alt=""><img class="big" src="${icon}" alt=""></div><small>${label}</small></div>`;
   return `<section class="option" aria-labelledby="h-${o.l}">
     <div><h2 id="h-${o.l}"><b>${o.l}</b><span class="swatch" style="background:${o.ground}"></span>${o.name}</h2>

@@ -1,14 +1,14 @@
 # Branding
 
-> Agent Workspace is a Four Ounces project. Its colors, type and studio mark come from the Four Ounces brand kit (`kratner/four-ounces-brand`); take them from there. This folder keeps the extension's own icon: its concepts and the shipping version.
+> Agent Sessions is a Four Ounces project. Its colors, type and studio mark come from the Four Ounces brand kit (`kratner/four-ounces-brand`); take them from there. This folder keeps the extension's own icon: its concepts and the shipping version.
 
-Working files for the Agent Workspace Dashboard icon.
+Working files for the Agent Sessions Dashboard icon.
 
 ![Concepts at 128, 32 and 16 px on dark and light backgrounds](preview/sheet.png)
 
 ## The shipping icon
 
-`icon/g-board-lapis.svg` is a copy of the kit's `logo/products/agent-workspace.svg`: the three-column board in cream
+`icon/g-board-lapis.svg` is a copy of the kit's `logo/products/agent-sessions.svg`: the three-column board in cream
 (`#F4EAD5`) on a lapis tile (`#2B4C9B`), corner radius 28 on 128. The earlier indigo tile (`#1A2236`, concept F)
 vanished against dark backgrounds, so on 2026-10-30 it moved to the same treatment as MingTab's red seal: a cream
 glyph on a mid-tone pigment. The options are in [`icon-ground/`](icon-ground/index.html). The filled card is the

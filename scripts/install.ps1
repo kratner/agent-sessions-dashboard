@@ -1,12 +1,12 @@
 # Installs or updates Agent Sessions Dashboard from the latest GitHub release.
-#   irm https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/main/scripts/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/kratner/agent-sessions-dashboard/main/scripts/install.ps1 | iex
 # Works in Windows PowerShell 5.1 and PowerShell 7. Set $env:VSCODE_CLI to use another
 # VS Code-compatible CLI (e.g. code-insiders).
 $ErrorActionPreference = 'Stop'
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 
-$repo = 'kratner/agent-workspace-dashboard'
-$headers = @{ 'User-Agent' = 'agent-workspace-dashboard-installer'; 'Accept' = 'application/vnd.github+json' }
+$repo = 'kratner/agent-sessions-dashboard'
+$headers = @{ 'User-Agent' = 'agent-sessions-dashboard-installer'; 'Accept' = 'application/vnd.github+json' }
 $release = Invoke-RestMethod "https://api.github.com/repos/$repo/releases/latest" -Headers $headers
 $asset = $release.assets | Where-Object { $_.name -like '*.vsix' } | Select-Object -First 1
 if (-not $asset) { throw "Release $($release.tag_name) has no .vsix file." }

@@ -2,7 +2,7 @@
   "name": "agent-sessions-dashboard",
   "displayName": "Agent Sessions Dashboard",
   "description": "See every AI coding agent session you have running, as a Kanban board or a list, and spot the one that's waiting on you.",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "publisher": "fourounces",
   "author": {
     "name": "Four Ounces",
@@ -15,13 +15,13 @@
     "color": "#000000",
     "theme": "dark"
   },
-  "homepage": "https://github.com/kratner/agent-workspace-dashboard#readme",
+  "homepage": "https://github.com/kratner/agent-sessions-dashboard#readme",
   "bugs": {
-    "url": "https://github.com/kratner/agent-workspace-dashboard/issues"
+    "url": "https://github.com/kratner/agent-sessions-dashboard/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kratner/agent-workspace-dashboard.git"
+    "url": "https://github.com/kratner/agent-sessions-dashboard.git"
   },
   "engines": {
     "vscode": "^1.94.0"
@@ -43,24 +43,24 @@
   "main": "./dist/extension.js",
   "activationEvents": [
     "onStartupFinished",
-    "onWebviewPanel:agentWorkspace.dashboard"
+    "onWebviewPanel:agentSessions.dashboard"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "agentWorkspace.openDashboard",
+        "command": "agentSessions.openDashboard",
         "title": "Open Dashboard",
         "category": "Agent Sessions",
         "icon": "$(layout)"
       },
       {
-        "command": "agentWorkspace.refresh",
+        "command": "agentSessions.refresh",
         "title": "Refresh Sessions",
         "category": "Agent Sessions",
         "icon": "$(refresh)"
       },
       {
-        "command": "agentWorkspace.checkForUpdates",
+        "command": "agentSessions.checkForUpdates",
         "title": "Check for Updates",
         "category": "Agent Sessions"
       }
@@ -68,7 +68,7 @@
     "configuration": {
       "title": "Agent Sessions",
       "properties": {
-        "agentWorkspace.appearance": {
+        "agentSessions.appearance": {
           "type": "string",
           "enum": [
             "brand",
@@ -81,25 +81,25 @@
           "default": "brand",
           "description": "How the dashboard looks."
         },
-        "agentWorkspace.endedWithinHours": {
+        "agentSessions.endedWithinHours": {
           "type": "number",
           "default": 24,
           "minimum": 0,
           "description": "Show ended sessions whose last activity was within this many hours. 0 hides ended sessions."
         },
-        "agentWorkspace.showStatusBar": {
+        "agentSessions.showStatusBar": {
           "type": "boolean",
           "default": true,
           "description": "Show a status bar item with the number of working and waiting sessions."
         },
-        "agentWorkspace.historyResultThreshold": {
+        "agentSessions.historyResultThreshold": {
           "type": "number",
           "default": 150,
           "minimum": 100,
           "maximum": 200,
           "description": "History search: above this many matching past sessions, show the 25 most recent first, with a button to show them all."
         },
-        "agentWorkspace.checkForUpdates": {
+        "agentSessions.checkForUpdates": {
           "type": "boolean",
           "default": true,
           "description": "For copies installed from a .vsix file: about once a day, ask GitHub whether a newer release exists, and offer to install it from the Marketplace (or, if the Marketplace can't be reached, the release's .vsix, installed only if it matches the SHA-256 checksum GitHub publishes). Marketplace installs skip this check, because VS Code updates them."

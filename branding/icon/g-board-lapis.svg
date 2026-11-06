@@ -1,5 +1,5 @@
-<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg"><title>Agent Workspace</title>
-  <!-- Concept G "Board on lapis": the shipping icon since 2026-10-30. Cream board on lapis, the same treatment as MingTab's red seal, because the dark indigo tile (concept F) vanished on dark backgrounds. Copy of the Four Ounces kit's logo/products/agent-workspace.svg
+<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg"><title>Agent Sessions</title>
+  <!-- Concept G "Board on lapis": the shipping icon since 2026-10-30. Cream board on lapis, the same treatment as MingTab's red seal, because the dark indigo tile (concept F) vanished on dark backgrounds. Copy of the Four Ounces kit's logo/products/agent-sessions.svg
        (one glyph per tool, each on its own ground); change it there first. -->
   <rect width="128" height="128" rx="28" fill="#2B4C9B"/><g fill="none" stroke="#F4EAD5" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><rect x="24" y="30" width="80" height="68" rx="14"/><path d="M50.7 30V98M77.3 30V98"/>
       <rect x="32" y="40" width="11" height="18" rx="4" fill="#F4EAD5" stroke="none"/></g></svg>

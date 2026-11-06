@@ -5,7 +5,7 @@ import { HistoryService } from './history/historyService';
 import { initLog, log } from './log';
 import { SessionStore } from './sessionStore';
 import { ClaudeCodeSource, claudeConfigDir } from './sources/claudeCode';
-import { removeLegacyCopy } from './update/migrate';
+import { copyRenamedSettings, removeLegacyCopy } from './update/migrate';
 import { registerUpdater } from './update/updater';
 import type { AgentSession } from './shared/types';
 
@@ -16,7 +16,8 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   log.info(`activated ${context.extension.id} v${context.extension.packageJSON.version}`);
   // An old pre-Marketplace copy still loaded would own the same commands: remove it and stop.
   if (await removeLegacyCopy(context)) return;
-  const config = () => vscode.workspace.getConfiguration('agentWorkspace');
+  await copyRenamedSettings(context).catch((err) => log.error('copying renamed settings failed', err));
+  const config = () => vscode.workspace.getConfiguration('agentSessions');
   const endedWithinMs = () => Math.max(0, config().get<number>('endedWithinHours', 24)) * HOUR_MS;
 
   // Register new agent systems here.
@@ -28,7 +29,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   );
 
   const statusItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-  statusItem.command = 'agentWorkspace.openDashboard';
+  statusItem.command = 'agentSessions.openDashboard';
   const updateStatus = (sessions: AgentSession[]) => {
     if (!config().get<boolean>('showStatusBar', true)) {
       statusItem.hide();
@@ -50,15 +51,15 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     statusItem,
     ...registerUpdater(context),
     store.onDidChange(updateStatus),
-    vscode.commands.registerCommand('agentWorkspace.openDashboard', () => DashboardPanel.show(context, store, history)),
-    vscode.commands.registerCommand('agentWorkspace.refresh', () => store.refresh()),
+    vscode.commands.registerCommand('agentSessions.openDashboard', () => DashboardPanel.show(context, store, history)),
+    vscode.commands.registerCommand('agentSessions.refresh', () => store.refresh()),
     vscode.window.registerWebviewPanelSerializer(VIEW_TYPE, {
       async deserializeWebviewPanel(panel) {
         DashboardPanel.revive(panel, context, store, history);
       },
     }),
     vscode.workspace.onDidChangeConfiguration((e) => {
-      if (e.affectsConfiguration('agentWorkspace')) {
+      if (e.affectsConfiguration('agentSessions')) {
         updateStatus(store.current);
         void store.refresh();
       }

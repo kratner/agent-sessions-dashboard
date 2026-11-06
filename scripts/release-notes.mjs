@@ -15,7 +15,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-export const REPO = 'kratner/agent-workspace-dashboard';
+export const REPO = 'kratner/agent-sessions-dashboard';
 const HEADING = /^## (\d+\.\d+\.\d+)(?: \(([^)]+)\))?\s*$/;
 
 /** Versions in CHANGELOG order (newest first), with each section's lines. */

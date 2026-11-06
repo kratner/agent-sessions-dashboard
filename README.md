@@ -2,11 +2,11 @@
 
 # Agent Sessions Dashboard
 
-**A Four Ounces tool** · [Source on GitHub](https://github.com/kratner/agent-workspace-dashboard)
+**A Four Ounces tool** · [Source on GitHub](https://github.com/kratner/agent-sessions-dashboard)
 
 See every AI coding agent session you have running, as a Kanban board or a list, and spot the one that's waiting on you.
 
-Works with Claude Code today, and built so other agents can be added as sources. Formerly called Agent Workspace Dashboard.
+Works with Claude Code today, and built so other agents can be added as sources. Called Agent Workspace Dashboard up to 0.7.2.
 
 ![Kanban view: sessions grouped into Waiting on you, Working, Idle and Ended](media/screenshots/kanban-brand.png)
 
@@ -34,7 +34,7 @@ Install it from the [Visual Studio Marketplace](https://marketplace.visualstudio
 code --install-extension fourounces.agent-sessions-dashboard
 ```
 
-**Without the Marketplace** (Cursor, VSCodium and other editors that use Open VSX, or an offline machine): download the `.vsix` from the [latest release](https://github.com/kratner/agent-workspace-dashboard/releases/latest), then run `code --install-extension <file>.vsix`. Or in VS Code: Extensions view → **…** menu → **Install from VSIX…**
+**Without the Marketplace** (Cursor, VSCodium and other editors that use Open VSX, or an offline machine): download the `.vsix` from the [latest release](https://github.com/kratner/agent-sessions-dashboard/releases/latest), then run `code --install-extension <file>.vsix`. Or in VS Code: Extensions view → **…** menu → **Install from VSIX…**
 
 There are also one-line installers for Windows and macOS/Linux, which check the download against the SHA-256 checksum GitHub publishes; see [DEVELOPMENT.md](DEVELOPMENT.md#one-line-installers). To build from source instead, see [DEVELOPMENT.md](DEVELOPMENT.md#install-from-source).
 
@@ -48,7 +48,7 @@ There are also one-line installers for Windows and macOS/Linux, which check the 
   - **Release Notes.**
   - **Skip This Version.**
 - **Any time:** run **Agent Sessions: Check for Updates**.
-- **To turn the daily check off,** set `agentWorkspace.checkForUpdates` to `false`. Marketplace installs skip it already.
+- **To turn the daily check off,** set `agentSessions.checkForUpdates` to `false`. Marketplace installs skip it already.
 
 ## Getting started
 
@@ -66,7 +66,7 @@ Type in the search box in the header, or press `/` or Ctrl+F (⌘F on macOS) to 
 - **Several words:** a session must contain all of them. `api waiting` finds the waiting session in the `api` folder.
 - **Matches are highlighted.** In the List view, which has no prompt column, a prompt that matched appears under the title while you search.
 - **Your search stays** when you switch tabs and come back. Press Esc in the box to clear it.
-- **Scope:** search covers the sessions on the dashboard, meaning running ones plus those ended within `agentWorkspace.endedWithinHours`. To go further back, switch on History.
+- **Scope:** search covers the sessions on the dashboard, meaning running ones plus those ended within `agentSessions.endedWithinHours`. To go further back, switch on History.
 
 ![Searching for "api"](media/screenshots/search-brand.png)
 
@@ -77,7 +77,7 @@ Click **History** next to the search box. While it's on, a **From history** sect
 - **What it searches:** every Claude Code session on this machine. For each one it reads the title, the folder and **every prompt you typed**, not just the last one. It doesn't search Claude's replies or tool output.
 - **Results:** each row shows the session's title, folder, date and the line that matched. Click a row to resume the session, or use **Copy resume** to get the terminal command.
 - **Subagents:** work done inside a subagent counts too. A match there appears under its parent session, as **↳ Found in subagent: *task description***, with the matching line. If several subagents match, the first one is shown with **+N more subagents** to expand. Untick **Include subagents** to search only top-level sessions.
-- **Lots of matches:** up to 150 results all show. Above that you see the 25 most recent first, with a **Show all** button; the rest then load as you scroll. The `agentWorkspace.historyResultThreshold` setting moves that cut-off anywhere from 100 to 200.
+- **Lots of matches:** up to 150 results all show. Above that you see the 25 most recent first, with a **Show all** button; the rest then load as you scroll. The `agentSessions.historyResultThreshold` setting moves that cut-off anywhere from 100 to 200.
 - **Indexing:**
   - The first time you search history, the extension builds an index of your transcripts in the background, with a progress line. On a 1 GB history it took under 2 seconds.
   - After that it only reads what's new, and the index is cached between restarts.
@@ -97,11 +97,11 @@ Click **History** next to the search box. While it's on, a **From history** sect
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| `agentWorkspace.appearance` | `brand` | `brand` is the Four Ounces look: warm ink, or warm paper with a light VS Code theme. `vscode` follows your color theme. |
-| `agentWorkspace.endedWithinHours` | `24` | How far back to show ended sessions. `0` hides them. |
-| `agentWorkspace.showStatusBar` | `true` | Show the working and waiting counts in the status bar |
-| `agentWorkspace.historyResultThreshold` | `150` | History search: above this many matches (100–200), show the 25 most recent first, with a button to show all |
-| `agentWorkspace.checkForUpdates` | `true` | Check GitHub for a newer release about once a day and offer to install it |
+| `agentSessions.appearance` | `brand` | `brand` is the Four Ounces look: warm ink, or warm paper with a light VS Code theme. `vscode` follows your color theme. |
+| `agentSessions.endedWithinHours` | `24` | How far back to show ended sessions. `0` hides them. |
+| `agentSessions.showStatusBar` | `true` | Show the working and waiting counts in the status bar |
+| `agentSessions.historyResultThreshold` | `150` | History search: above this many matches (100–200), show the 25 most recent first, with a button to show all |
+| `agentSessions.checkForUpdates` | `true` | Check GitHub for a newer release about once a day and offer to install it |
 
 ![The Four Ounces look with a light VS Code theme](media/screenshots/kanban-brand-light.png)
 
@@ -138,7 +138,7 @@ To match sessions to running programs, it also looks up process information, rea
 
 ## Release notes and roadmap
 
-- **Releases:** every version, with its `.vsix` and notes, is on the [Releases page](https://github.com/kratner/agent-workspace-dashboard/releases).
+- **Releases:** every version, with its `.vsix` and notes, is on the [Releases page](https://github.com/kratner/agent-sessions-dashboard/releases).
 - **What changed:** see [CHANGELOG.md](CHANGELOG.md).
 - **What's next:** see [ROADMAP.md](ROADMAP.md).
 

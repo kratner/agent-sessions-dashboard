@@ -35,6 +35,6 @@ git('push', 'origin', tag);
 
 console.log(`
 ✔ Pushed ${tag}. GitHub Actions is building the release:
-  https://github.com/kratner/agent-workspace-dashboard/actions
+  https://github.com/kratner/agent-sessions-dashboard/actions
 When it finishes (about two minutes) it appears at:
-  https://github.com/kratner/agent-workspace-dashboard/releases/tag/${tag}`);
+  https://github.com/kratner/agent-sessions-dashboard/releases/tag/${tag}`);

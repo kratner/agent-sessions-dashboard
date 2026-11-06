@@ -4,8 +4,8 @@ import { log } from './log';
 import type { AgentSession, Appearance, HistoryRef, HostMessage, WebviewMessage } from './shared/types';
 import type { SessionStore } from './sessionStore';
 
-export const VIEW_TYPE = 'agentWorkspace.dashboard';
-const ACTIVE_VIEW_KEY = 'agentWorkspace.activeView';
+export const VIEW_TYPE = 'agentSessions.dashboard';
+const ACTIVE_VIEW_KEY = 'agentSessions.activeView';
 const DEFAULT_VIEW = 'kanban';
 const HISTORY_SOURCE = 'claude-code';
 
@@ -48,7 +48,7 @@ export class DashboardPanel implements vscode.Disposable {
       store.onDidChange(() => this.post()),
       history.onStatus((status) => this.send({ type: 'historyStatus', status })),
       vscode.workspace.onDidChangeConfiguration((e) => {
-        if (e.affectsConfiguration('agentWorkspace.appearance') || e.affectsConfiguration('agentWorkspace.historyResultThreshold')) this.post();
+        if (e.affectsConfiguration('agentSessions.appearance') || e.affectsConfiguration('agentSessions.historyResultThreshold')) this.post();
       }),
       // Coming back into view: resend the latest state, whether or not VS Code reloaded the webview.
       panel.onDidChangeViewState(({ webviewPanel }) => {
@@ -117,7 +117,7 @@ export class DashboardPanel implements vscode.Disposable {
   }
 
   private post(): void {
-    const config = vscode.workspace.getConfiguration('agentWorkspace');
+    const config = vscode.workspace.getConfiguration('agentSessions');
     this.send({
       type: 'state',
       sessions: this.store.current,

@@ -6,8 +6,8 @@ import * as https from 'https';
 // GitHub Releases client for the update check. No `vscode` imports, so it can be tested
 // against the real repository from plain Node.
 
-export const REPO = 'kratner/agent-workspace-dashboard';
-const USER_AGENT = 'agent-workspace-dashboard-updater';
+export const REPO = 'kratner/agent-sessions-dashboard';
+const USER_AGENT = 'agent-sessions-dashboard-updater';
 
 export interface ReleaseAsset {
   name: string;
