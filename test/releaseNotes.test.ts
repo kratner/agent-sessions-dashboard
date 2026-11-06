@@ -53,7 +53,7 @@ test('notes: summary, date, screenshot, changes, subsections, compare link, inst
   assert.ok(order.every((i) => i >= 0), `every part present: ${order}`);
   assert.deepEqual([...order].sort((a, b) => a - b), order, 'parts in order');
   assert.match(notes, /compare\/v0\.1\.0\.\.\.v0\.3\.0/, 'compares with the previous version that has a tag (0.2.0 has none)');
-  assert.match(notes, /agent-workspace-dashboard-0\.3\.0\.vsix/, 'manual install names this version');
+  assert.match(notes, /agent-sessions-dashboard-0\.3\.0\.vsix/, 'manual install names this version');
   assert.doesNotMatch(notes, /Intro text/, 'text before the first version is not part of any release');
 });
 

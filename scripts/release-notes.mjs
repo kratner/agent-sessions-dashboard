@@ -106,7 +106,7 @@ curl -fsSL ${raw}/install.sh | sh
 
 The installer verifies the download's SHA-256 checksum, then installs it with the \`code\` command.
 
-**This version specifically:** download \`agent-workspace-dashboard-${version}.vsix\` below, then run \`code --install-extension agent-workspace-dashboard-${version}.vsix --force\`.
+**This version specifically:** download \`agent-sessions-dashboard-${version}.vsix\` below, then run \`code --install-extension agent-sessions-dashboard-${version}.vsix --force\`.
 
 After installing or updating, run **Developer: Reload Window** in VS Code. From 0.5.0 on, the extension checks for new releases itself and offers to update.`;
 }

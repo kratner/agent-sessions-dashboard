@@ -1,6 +1,6 @@
 # Development
 
-How to build, release and extend the Agent Workspace Dashboard. The steps are the same on Windows and macOS.
+How to build, release and extend the Agent Sessions Dashboard. The steps are the same on Windows and macOS.
 
 To *use* the extension, install it from the VS Code Marketplace (see the [README](README.md#install)). This page is for building it yourself.
 
@@ -31,7 +31,7 @@ git clone https://github.com/kratner/agent-workspace-dashboard.git
 cd agent-workspace-dashboard
 npm install
 npm run package
-code --install-extension agent-workspace-dashboard-0.5.2.vsix --force
+code --install-extension agent-sessions-dashboard-0.5.2.vsix --force
 ```
 
 `npm run package` type-checks the code, builds it and writes the `.vsix` file. Use the file name it prints; the version number changes with each release.
@@ -44,7 +44,7 @@ Then reload VS Code: Command Palette → **Developer: Reload Window**. Do this i
 git pull
 npm install
 npm run package
-code --install-extension agent-workspace-dashboard-<version>.vsix --force
+code --install-extension agent-sessions-dashboard-<version>.vsix --force
 ```
 
 Then reload the window.
@@ -52,7 +52,7 @@ Then reload the window.
 ### Uninstall
 
 ```sh
-code --uninstall-extension fourounces.agent-workspace-dashboard
+code --uninstall-extension fourounces.agent-sessions-dashboard
 ```
 
 Versions up to 0.6.2 were published as `kratner.agent-workspace-dashboard`. Uninstall that ID too if

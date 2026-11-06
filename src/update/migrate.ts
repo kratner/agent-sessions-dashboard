@@ -19,13 +19,13 @@ export async function removeLegacyCopy(context: vscode.ExtensionContext): Promis
     } catch (err) {
       log.error(`could not remove the old copy ${id}`, err);
       void vscode.window.showWarningMessage(
-        `Agent Workspace Dashboard moved to the Marketplace. Please uninstall the old copy (${id}) from the Extensions view, then reload the window.`,
+        `Agent Sessions Dashboard moved to the Marketplace. Please uninstall the old copy (${id}) from the Extensions view, then reload the window.`,
       );
       return true;
     }
   }
   const reload = await vscode.window.showInformationMessage(
-    'Agent Workspace Dashboard now comes from the VS Code Marketplace, and the old copy has been removed. Reload the window to finish.',
+    'Agent Sessions Dashboard now comes from the VS Code Marketplace, and the old copy has been removed. Reload the window to finish.',
     'Reload Window',
   );
   if (reload) await vscode.commands.executeCommand('workbench.action.reloadWindow');

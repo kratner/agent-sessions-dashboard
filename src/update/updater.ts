@@ -58,7 +58,7 @@ async function checkForUpdates(context: vscode.ExtensionContext, manual: boolean
   const latest = release.tag_name.replace(/^v/, '');
   log.info(`update check: installed ${current}, latest release ${latest}`);
   if (!isNewer(latest, current)) {
-    if (manual) void vscode.window.showInformationMessage(`Agent Workspace Dashboard is up to date (${current}).`);
+    if (manual) void vscode.window.showInformationMessage(`Agent Sessions Dashboard is up to date (${current}).`);
     return;
   }
   if (!manual && context.globalState.get<string>(SKIPPED_KEY) === latest) return;
@@ -66,7 +66,7 @@ async function checkForUpdates(context: vscode.ExtensionContext, manual: boolean
   const asset = vsixAsset(release);
   const actions = ['Update', 'Release Notes'];
   if (!manual) actions.push('Skip This Version');
-  const choice = await vscode.window.showInformationMessage(`Agent Workspace Dashboard ${latest} is available. You have ${current}.`, ...actions);
+  const choice = await vscode.window.showInformationMessage(`Agent Sessions Dashboard ${latest} is available. You have ${current}.`, ...actions);
 
   if (choice === 'Release Notes') {
     await vscode.env.openExternal(vscode.Uri.parse(release.html_url));
@@ -75,7 +75,7 @@ async function checkForUpdates(context: vscode.ExtensionContext, manual: boolean
   } else if (choice === 'Update') {
     let from = 'the Marketplace';
     await vscode.window.withProgress(
-      { location: vscode.ProgressLocation.Notification, title: `Updating Agent Workspace Dashboard to ${latest}…` },
+      { location: vscode.ProgressLocation.Notification, title: `Updating Agent Sessions Dashboard to ${latest}…` },
       async () => {
         try {
           await vscode.commands.executeCommand('workbench.extensions.installExtension', MARKETPLACE_ID);
@@ -91,7 +91,7 @@ async function checkForUpdates(context: vscode.ExtensionContext, manual: boolean
     );
     log.info(`updated to ${latest} from ${from}`);
     const reload = await vscode.window.showInformationMessage(
-      `Agent Workspace Dashboard ${latest} is installed. Reload the window to start using it.`,
+      `Agent Sessions Dashboard ${latest} is installed. Reload the window to start using it.`,
       'Reload Window',
     );
     if (reload) await vscode.commands.executeCommand('workbench.action.reloadWindow');

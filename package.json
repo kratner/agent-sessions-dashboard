@@ -1,6 +1,6 @@
 {
-  "name": "agent-workspace-dashboard",
-  "displayName": "Agent Workspace Dashboard",
+  "name": "agent-sessions-dashboard",
+  "displayName": "Agent Sessions Dashboard",
   "description": "See every AI coding agent session you have running, as a Kanban board or a list, and spot the one that's waiting on you.",
   "version": "0.7.3",
   "publisher": "fourounces",
@@ -50,23 +50,23 @@
       {
         "command": "agentWorkspace.openDashboard",
         "title": "Open Dashboard",
-        "category": "Agent Workspace",
+        "category": "Agent Sessions",
         "icon": "$(layout)"
       },
       {
         "command": "agentWorkspace.refresh",
         "title": "Refresh Sessions",
-        "category": "Agent Workspace",
+        "category": "Agent Sessions",
         "icon": "$(refresh)"
       },
       {
         "command": "agentWorkspace.checkForUpdates",
         "title": "Check for Updates",
-        "category": "Agent Workspace"
+        "category": "Agent Sessions"
       }
     ],
     "configuration": {
-      "title": "Agent Workspace",
+      "title": "Agent Sessions",
       "properties": {
         "agentWorkspace.appearance": {
           "type": "string",

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Installs or updates Agent Workspace Dashboard from the latest GitHub release.
+# Installs or updates Agent Sessions Dashboard from the latest GitHub release.
 #   curl -fsSL https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/main/scripts/install.sh | sh
 # macOS and Linux. Set VSCODE_CLI to use another VS Code-compatible CLI (e.g. code-insiders).
 set -eu
@@ -39,5 +39,5 @@ fi
 rm -f "$file"
 
 echo ""
-echo "Agent Workspace Dashboard $tag installed."
+echo "Agent Sessions Dashboard $tag installed."
 echo "In each open VS Code window, run: Developer: Reload Window"

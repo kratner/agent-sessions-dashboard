@@ -48,19 +48,19 @@ test('sha256 matches the known digest of a file', async () => {
 test('finds the old kratner copy to remove, and never removes itself', async () => {
   const { legacyCopies } = await import('../src/update/legacyId');
   const installed = (ids: string[]) => (id: string) => ids.includes(id);
-  const both = installed(['kratner.agent-workspace-dashboard', 'fourounces.agent-workspace-dashboard']);
-  assert.deepEqual(legacyCopies('fourounces.agent-workspace-dashboard', both), ['kratner.agent-workspace-dashboard']);
-  assert.deepEqual(legacyCopies('FourOunces.agent-workspace-dashboard', both), ['kratner.agent-workspace-dashboard'], 'IDs are case-insensitive');
-  assert.deepEqual(legacyCopies('fourounces.agent-workspace-dashboard', installed(['fourounces.agent-workspace-dashboard'])), [], 'nothing to remove');
+  const both = installed(['kratner.agent-workspace-dashboard', 'fourounces.agent-sessions-dashboard']);
+  assert.deepEqual(legacyCopies('fourounces.agent-sessions-dashboard', both), ['kratner.agent-workspace-dashboard']);
+  assert.deepEqual(legacyCopies('FourOunces.agent-sessions-dashboard', both), ['kratner.agent-workspace-dashboard'], 'IDs are case-insensitive');
+  assert.deepEqual(legacyCopies('fourounces.agent-sessions-dashboard', installed(['fourounces.agent-sessions-dashboard'])), [], 'nothing to remove');
   assert.deepEqual(legacyCopies('kratner.agent-workspace-dashboard', both), [], 'an old copy never removes itself');
 });
 
 test('install source comes from extensions.json: Marketplace installs skip the daily check', () => {
   const json = [
-    { identifier: { id: 'fourounces.agent-workspace-dashboard' }, relativeLocation: 'fourounces.agent-workspace-dashboard-0.7.2', metadata: { source: 'gallery' } },
+    { identifier: { id: 'fourounces.agent-sessions-dashboard' }, relativeLocation: 'fourounces.agent-sessions-dashboard-0.7.2', metadata: { source: 'gallery' } },
     { identifier: { id: 'kratner.agent-workspace-dashboard' }, relativeLocation: 'kratner.agent-workspace-dashboard-0.6.2', metadata: { source: 'vsix' } },
   ];
-  assert.equal(sourceFromExtensionsJson(json, 'FourOunces.agent-workspace-dashboard', 'fourounces.agent-workspace-dashboard-0.7.2'), 'gallery');
+  assert.equal(sourceFromExtensionsJson(json, 'FourOunces.agent-sessions-dashboard', 'fourounces.agent-sessions-dashboard-0.7.2'), 'gallery');
   assert.equal(sourceFromExtensionsJson(json, 'kratner.agent-workspace-dashboard', 'kratner.agent-workspace-dashboard-0.6.2'), 'vsix');
   // Matched by location when relativeLocation is missing (Windows path).
   const byPath = [{ identifier: { id: 'a.b' }, location: { fsPath: 'C:\\Users\\k\\.vscode\\extensions\\a.b-1.0.0' }, metadata: { source: 'vsix' } }, { identifier: { id: 'a.b' }, relativeLocation: 'a.b-0.9.0', metadata: { source: 'gallery' } }];

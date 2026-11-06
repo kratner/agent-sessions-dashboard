@@ -11,8 +11,8 @@
 | 0.5.0 | 2026-10-23 | GitHub Releases built by Actions, one-line installers, in-extension update check |
 | 0.6.0 | 2026-10-25 | Four Ounces brand: ink and paper looks, Old Gold, Inter, new icon |
 | 0.7.1 | 2026-11-05 | On the VS Code Marketplace as `fourounces.agent-workspace-dashboard`; updates install from it |
-| 0.7.3 | 2026-11-06 | Agent-neutral listing: "AI coding agents", Claude Code as today's source |
 | 0.7.2 | 2026-11-05 | Marketplace installs skip the GitHub check; fallback download requires its checksum; tested on macOS too |
+| 0.7.3 | 2026-11-06 | Renamed Agent Sessions Dashboard, on the Marketplace as `fourounces.agent-sessions-dashboard`; agent-neutral listing |
 
 The "Waiting on you" column was confirmed working in real use on 2026-10-23. Claude Code's status files do report sessions waiting for approval, so no hook is needed.
 

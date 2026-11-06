@@ -1,4 +1,4 @@
-# Installs or updates Agent Workspace Dashboard from the latest GitHub release.
+# Installs or updates Agent Sessions Dashboard from the latest GitHub release.
 #   irm https://raw.githubusercontent.com/kratner/agent-workspace-dashboard/main/scripts/install.ps1 | iex
 # Works in Windows PowerShell 5.1 and PowerShell 7. Set $env:VSCODE_CLI to use another
 # VS Code-compatible CLI (e.g. code-insiders).
@@ -35,5 +35,5 @@ if ($LASTEXITCODE -ne 0) { throw "Installing with '$code' failed." }
 Remove-Item $file -Force -ErrorAction SilentlyContinue
 
 Write-Host ""
-Write-Host "Agent Workspace Dashboard $($release.tag_name) installed."
+Write-Host "Agent Sessions Dashboard $($release.tag_name) installed."
 Write-Host "In each open VS Code window, run: Developer: Reload Window"

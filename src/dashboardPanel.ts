@@ -19,7 +19,7 @@ export class DashboardPanel implements vscode.Disposable {
       DashboardPanel.current.panel.reveal();
       return;
     }
-    const panel = vscode.window.createWebviewPanel(VIEW_TYPE, 'Agent Workspace', vscode.ViewColumn.Active, {
+    const panel = vscode.window.createWebviewPanel(VIEW_TYPE, 'Agent Sessions', vscode.ViewColumn.Active, {
       enableScripts: true,
       localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, 'dist')],
     });
@@ -147,7 +147,7 @@ export class DashboardPanel implements vscode.Disposable {
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; font-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="${asset('webview.css')}">
-  <title>Agent Workspace</title>
+  <title>Agent Sessions</title>
 </head>
 <body>
   <div id="root"></div>

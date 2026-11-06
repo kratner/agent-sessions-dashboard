@@ -1,6 +1,6 @@
 // Brand marks from the Four Ounces kit (kratner/four-ounces-brand). Copies of its geometry; change them there first.
 
-// Agent Workspace's product icon, the same drawing as the extension icon and fourounces.live: the
+// Agent Sessions Dashboard's product icon, the same drawing as the extension icon and fourounces.live: the
 // board in cream on its lapis tile (branding/icon/g-board-lapis.svg). The filled card is the
 // session waiting on you. Fixed colors, so it looks the same in every appearance and theme.
 export function ProductIcon() {

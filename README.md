@@ -1,12 +1,12 @@
-<p align="center"><img src="media/icon.png" width="96" alt="Agent Workspace Dashboard icon"></p>
+<p align="center"><img src="media/icon.png" width="96" alt="Agent Sessions Dashboard icon"></p>
 
-# Agent Workspace Dashboard
+# Agent Sessions Dashboard
 
 **A Four Ounces tool** · [Source on GitHub](https://github.com/kratner/agent-workspace-dashboard)
 
 See every AI coding agent session you have running, as a Kanban board or a list, and spot the one that's waiting on you.
 
-Works with Claude Code today, and built so other agents can be added as sources.
+Works with Claude Code today, and built so other agents can be added as sources. Formerly called Agent Workspace Dashboard.
 
 ![Kanban view: sessions grouped into Waiting on you, Working, Idle and Ended](media/screenshots/kanban-brand.png)
 
@@ -28,10 +28,10 @@ Works with Claude Code today, and built so other agents can be added as sources.
 
 ## Install
 
-Install it from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=fourounces.agent-workspace-dashboard): in VS Code, open the Extensions view, search for **Agent Workspace Dashboard** and click **Install**. Or run:
+Install it from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=fourounces.agent-sessions-dashboard): in VS Code, open the Extensions view, search for **Agent Sessions Dashboard** and click **Install**. Or run:
 
 ```sh
-code --install-extension fourounces.agent-workspace-dashboard
+code --install-extension fourounces.agent-sessions-dashboard
 ```
 
 **Without the Marketplace** (Cursor, VSCodium and other editors that use Open VSX, or an offline machine): download the `.vsix` from the [latest release](https://github.com/kratner/agent-workspace-dashboard/releases/latest), then run `code --install-extension <file>.vsix`. Or in VS Code: Extensions view → **…** menu → **Install from VSIX…**
@@ -47,7 +47,7 @@ There are also one-line installers for Windows and macOS/Linux, which check the 
   - **Update:** installs it from the Marketplace, so VS Code keeps it updated from then on. If the Marketplace can't be reached, it downloads the release's `.vsix` instead and installs it only if it matches the SHA-256 checksum GitHub publishes for it; otherwise it stops and says why.
   - **Release Notes.**
   - **Skip This Version.**
-- **Any time:** run **Agent Workspace: Check for Updates**.
+- **Any time:** run **Agent Sessions: Check for Updates**.
 - **To turn the daily check off,** set `agentWorkspace.checkForUpdates` to `false`. Marketplace installs skip it already.
 
 ## Getting started
@@ -55,7 +55,7 @@ There are also one-line installers for Windows and macOS/Linux, which check the 
 1. Have [Claude Code](https://claude.com/claude-code) installed, as the VS Code extension, the CLI, or both.
 2. Open the dashboard:
    - click the robot icon in the status bar, or
-   - run **Agent Workspace: Open Dashboard** from the Command Palette.
+   - run **Agent Sessions: Open Dashboard** from the Command Palette.
 3. Start or continue a Claude Code session. Its card appears within a few seconds.
 
 ## Searching
@@ -89,9 +89,9 @@ Click **History** next to the search box. While it's on, a **From history** sect
 
 | Command | What it does |
 | --- | --- |
-| **Agent Workspace: Open Dashboard** | Opens the dashboard in an editor tab, or brings it to the front |
-| **Agent Workspace: Refresh Sessions** | Re-reads session files immediately |
-| **Agent Workspace: Check for Updates** | Checks GitHub for a newer release and offers to install it |
+| **Agent Sessions: Open Dashboard** | Opens the dashboard in an editor tab, or brings it to the front |
+| **Agent Sessions: Refresh Sessions** | Re-reads session files immediately |
+| **Agent Sessions: Check for Updates** | Checks GitHub for a newer release and offers to install it |
 
 ## Settings
 

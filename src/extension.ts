@@ -38,7 +38,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     const busy = sessions.filter((s) => s.state === 'busy').length;
     const parts = [waiting && `${waiting} waiting`, busy && `${busy} working`].filter(Boolean);
     statusItem.text = `$(hubot) ${parts.length ? parts.join(' · ') : 'Agents'}`;
-    statusItem.tooltip = 'Open the Agent Workspace dashboard';
+    statusItem.tooltip = 'Open the Agent Sessions dashboard';
     statusItem.backgroundColor = waiting ? new vscode.ThemeColor('statusBarItem.warningBackground') : undefined;
     statusItem.show();
   };

@@ -98,7 +98,7 @@ export function ViewManager() {
       <header className="toolbar">
         <div className="brand">
           <ProductIcon />
-          <h1>Agent Workspace</h1>
+          <h1>Agent Sessions</h1>
         </div>
         <div className="tabs" role="tablist" aria-label="View">
           {VIEWS.map((v) => (

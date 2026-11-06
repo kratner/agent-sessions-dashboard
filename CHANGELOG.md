@@ -4,8 +4,9 @@ Each version starts with a short summary, then the details. The same text become
 
 ## 0.7.3 (2026-11-06)
 
-The listing now describes the dashboard as a tool for AI coding agents in general. It works with Claude Code today and is built so other agents can be added.
+The extension is now **Agent Sessions Dashboard**, on the VS Code Marketplace as `fourounces.agent-sessions-dashboard`, and its listing describes it as a tool for AI coding agents in general. It works with Claude Code today and is built so other agents can be added.
 
+- **New name and Marketplace ID.** The Marketplace kept rejecting the ID `agent-workspace-dashboard` (also the reason 0.7.1 and 0.7.2 never reached it), so the extension is published as `fourounces.agent-sessions-dashboard`. Commands, the Output log and the dashboard header now say **Agent Sessions**. Your settings (`agentWorkspace.*`) carry over unchanged, and a hand-installed `kratner.agent-workspace-dashboard` copy is still removed on first start.
 - **Agent-neutral description and keywords** on the Marketplace listing and at the top of the README. The parts that say what it reads, and what it needs, still name Claude Code.
 
 ## 0.7.2 (2026-11-05)
