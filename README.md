@@ -20,7 +20,7 @@ See every Claude Code session you have running, as a Kanban board or a list, and
 - **Resume ended sessions.** **Copy resume** puts the `claude --resume` command for that session on your clipboard.
 - **Two looks.** The Four Ounces look by default (warm ink, or warm paper when VS Code uses a light theme, with Old Gold marking what needs you), or follow your VS Code color theme.
 - **Easy to install and update.** Install it from the VS Code Marketplace, which keeps it up to date.
-- **Read-only and local.** It reads files Claude Code already writes on your machine. It never starts, stops or changes a session, and none of your data leaves the machine. The history index is stored locally, in the extension's own storage. Its only network request is the daily update check, which asks GitHub for the latest release and sends nothing about you; you can turn it off.
+- **Read-only and local.** It reads files Claude Code already writes on your machine. It never starts, stops or changes a session, and none of your data leaves the machine. The history index is stored locally, in the extension's own storage. Its only network requests are for updates: copies installed from a `.vsix` ask GitHub once a day for the latest release, sending nothing about you (you can turn this off), and download it if you choose to update. On Windows it also asks PowerShell about running processes; see [How it works](#how-it-works).
 
 ![List view](media/screenshots/list-brand.png)
 
@@ -42,11 +42,11 @@ There are also one-line installers for Windows and macOS/Linux, which check the 
 
 - **From the Marketplace:** VS Code updates the extension by itself.
 - **Installed from a `.vsix`:** about once a day the extension asks GitHub whether there's a newer release. If there is, a notification offers:
-  - **Update:** installs it from the Marketplace, so VS Code keeps it updated from then on. If the Marketplace can't be reached, it downloads the release instead, verifies the checksum and installs that.
+  - **Update:** installs it from the Marketplace, so VS Code keeps it updated from then on. If the Marketplace can't be reached, it downloads the release's `.vsix` instead and installs it only if it matches the SHA-256 checksum GitHub publishes for it; otherwise it stops and says why.
   - **Release Notes.**
   - **Skip This Version.**
 - **Any time:** run **Agent Workspace: Check for Updates**.
-- **To turn the daily check off,** set `agentWorkspace.checkForUpdates` to `false`. Marketplace installs don't need it.
+- **To turn the daily check off,** set `agentWorkspace.checkForUpdates` to `false`. Marketplace installs skip it already.
 
 ## Getting started
 
@@ -117,11 +117,16 @@ Claude Code keeps a small status file for each running session (`~/.claude/sessi
 
 If you've set `CLAUDE_CONFIG_DIR`, the dashboard reads that folder instead of `~/.claude`.
 
+To match sessions to running programs, it also looks up process information, read-only:
+
+- **Which terminal a CLI session runs in:** the session's parent processes, so a click can bring that terminal to the front. On Windows it asks PowerShell (`Get-CimInstance Win32_Process`); on macOS and Linux it runs `ps`.
+- **Windows only, whether a session is still running:** Windows reuses process IDs, so the dashboard asks PowerShell when each process started and compares that with the start time Claude Code recorded.
+
 ## Requirements
 
 - VS Code 1.94 or newer.
 - Claude Code on the same machine.
-- Built for Windows and macOS. Tested on Windows so far.
+- Windows or macOS. Tested on both.
 
 ## Known limitations
 

@@ -47,16 +47,25 @@ export async function latestRelease(repo = REPO): Promise<Release> {
   return JSON.parse(body.toString('utf8')) as Release;
 }
 
-/** Downloads the asset to `dest` and checks it against GitHub's published SHA-256. */
+/**
+ * Downloads the asset to `dest` and checks it against GitHub's published SHA-256. Throws, leaving
+ * nothing at `dest`, if GitHub publishes no checksum or the download doesn't match it.
+ */
 export async function downloadVerified(asset: ReleaseAsset, dest: string): Promise<void> {
+  const expected = expectedSha256(asset);
   await downloadTo(asset.browser_download_url, dest);
-  if (asset.digest?.startsWith('sha256:')) {
-    const actual = await sha256(dest);
-    if (actual !== asset.digest.slice('sha256:'.length)) {
-      await rm(dest, { force: true });
-      throw new Error(`Checksum mismatch for ${asset.name}: the download is not the published file.`);
-    }
+  const actual = await sha256(dest);
+  if (actual !== expected) {
+    await rm(dest, { force: true });
+    throw new Error(`Checksum mismatch for ${asset.name}: the download is not the published file.`);
   }
+}
+
+/** The SHA-256 GitHub publishes for the asset. Throws if there isn't one: nothing unverified is installed. */
+export function expectedSha256(asset: ReleaseAsset): string {
+  const m = /^sha256:([0-9a-f]{64})$/i.exec(asset.digest ?? '');
+  if (!m) throw new Error(`GitHub publishes no SHA-256 checksum for ${asset.name}, so it can't be verified and won't be installed.`);
+  return m[1].toLowerCase();
 }
 
 export function sha256(file: string): Promise<string> {

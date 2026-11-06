@@ -2,7 +2,7 @@
   "name": "agent-workspace-dashboard",
   "displayName": "Agent Workspace Dashboard",
   "description": "See every Claude Code session you have running, as a Kanban board or a list, and spot the one that's waiting on you.",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "publisher": "fourounces",
   "author": {
     "name": "Four Ounces",
@@ -102,7 +102,7 @@
         "agentWorkspace.checkForUpdates": {
           "type": "boolean",
           "default": true,
-          "description": "About once a day, ask GitHub whether a newer release of this extension exists, and offer to install it from the Marketplace. This is the only network request the extension makes. The Marketplace already keeps installs up to date, so you can turn this off."
+          "description": "For copies installed from a .vsix file: about once a day, ask GitHub whether a newer release exists, and offer to install it from the Marketplace (or, if the Marketplace can't be reached, the release's .vsix, installed only if it matches the SHA-256 checksum GitHub publishes). Marketplace installs skip this check, because VS Code updates them."
         }
       }
     }

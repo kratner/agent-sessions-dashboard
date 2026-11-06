@@ -3,7 +3,8 @@ import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import { test } from 'node:test';
-import { isCheckDue, isNewer, sha256, vsixAsset } from '../src/update/releaseClient';
+import { sourceFromExtensionsJson } from '../src/update/installSource';
+import { expectedSha256, isCheckDue, isNewer, sha256, vsixAsset } from '../src/update/releaseClient';
 
 test('the daily check is due after a day, including in a window that stayed open', () => {
   const day = 86_400_000;
@@ -52,4 +53,27 @@ test('finds the old kratner copy to remove, and never removes itself', async () 
   assert.deepEqual(legacyCopies('FourOunces.agent-workspace-dashboard', both), ['kratner.agent-workspace-dashboard'], 'IDs are case-insensitive');
   assert.deepEqual(legacyCopies('fourounces.agent-workspace-dashboard', installed(['fourounces.agent-workspace-dashboard'])), [], 'nothing to remove');
   assert.deepEqual(legacyCopies('kratner.agent-workspace-dashboard', both), [], 'an old copy never removes itself');
+});
+
+test('install source comes from extensions.json: Marketplace installs skip the daily check', () => {
+  const json = [
+    { identifier: { id: 'fourounces.agent-workspace-dashboard' }, relativeLocation: 'fourounces.agent-workspace-dashboard-0.7.2', metadata: { source: 'gallery' } },
+    { identifier: { id: 'kratner.agent-workspace-dashboard' }, relativeLocation: 'kratner.agent-workspace-dashboard-0.6.2', metadata: { source: 'vsix' } },
+  ];
+  assert.equal(sourceFromExtensionsJson(json, 'FourOunces.agent-workspace-dashboard', 'fourounces.agent-workspace-dashboard-0.7.2'), 'gallery');
+  assert.equal(sourceFromExtensionsJson(json, 'kratner.agent-workspace-dashboard', 'kratner.agent-workspace-dashboard-0.6.2'), 'vsix');
+  // Matched by location when relativeLocation is missing (Windows path).
+  const byPath = [{ identifier: { id: 'a.b' }, location: { fsPath: 'C:\\Users\\k\\.vscode\\extensions\\a.b-1.0.0' }, metadata: { source: 'vsix' } }, { identifier: { id: 'a.b' }, relativeLocation: 'a.b-0.9.0', metadata: { source: 'gallery' } }];
+  assert.equal(sourceFromExtensionsJson(byPath, 'a.b', 'a.b-1.0.0'), 'vsix');
+  assert.equal(sourceFromExtensionsJson(json, 'someone.else', 'x'), 'unknown');
+  assert.equal(sourceFromExtensionsJson({ not: 'an array' }, 'a.b', 'x'), 'unknown');
+});
+
+test('the fallback download needs a published SHA-256, or nothing is installed', () => {
+  const hex = 'a'.repeat(64);
+  const asset = (digest?: string | null) => ({ name: 'x.vsix', browser_download_url: 'https://example.invalid/x.vsix', size: 1, digest });
+  assert.equal(expectedSha256(asset(`sha256:${hex.toUpperCase()}`)), hex);
+  assert.throws(() => expectedSha256(asset(undefined)), /no SHA-256/);
+  assert.throws(() => expectedSha256(asset(null)), /no SHA-256/);
+  assert.throws(() => expectedSha256(asset('sha1:abc')), /no SHA-256/);
 });

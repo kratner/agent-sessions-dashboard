@@ -2,6 +2,15 @@
 
 Each version starts with a short summary, then the details. The same text becomes that version's notes on the [Releases page](https://github.com/kratner/agent-workspace-dashboard/releases).
 
+## 0.7.2 (2026-11-05)
+
+Updates are stricter and better explained. Marketplace installs no longer run the daily GitHub check, and a download from GitHub is installed only when it matches its published checksum.
+
+- **Marketplace installs skip the daily check.** VS Code already updates them; the check still runs for copies installed from a `.vsix`, and **Check for Updates** works for everyone.
+- **The checksum is required.** If GitHub publishes no SHA-256 checksum for a release's `.vsix`, the fallback download is refused rather than installed unverified.
+- **The README explains the process lookups:** PowerShell on Windows (and `ps` on macOS) to find a CLI session's terminal and to catch reused process IDs.
+- **Tested on Windows and macOS.** The README no longer says Windows only.
+
 ## 0.7.1 (2026-11-05)
 
 Agent Workspace Dashboard is on the VS Code Marketplace, published by Four Ounces. Accept this update once; it removes the old hand-installed copy, and from then on VS Code keeps the extension up to date.

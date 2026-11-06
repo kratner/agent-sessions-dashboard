@@ -2,18 +2,21 @@ import * as os from 'os';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { log } from '../log';
+import { installSource } from './installSource';
 import { MARKETPLACE_ID } from './legacyId';
 import { downloadVerified, isCheckDue, isNewer, latestRelease, vsixAsset } from './releaseClient';
 
-// VS Code keeps Marketplace installs up to date by itself. A copy installed from a .vsix (the
-// install scripts, or a hand install) is not, so the extension also checks GitHub Releases: about
-// once a day, and on demand from the "Check for Updates" command. "Once a day" holds while VS Code
+// VS Code keeps Marketplace installs up to date by itself, so the automatic check skips them
+// (installSource.ts reads how this copy was installed). A copy installed from a .vsix (the install
+// scripts, or a hand install) is not kept up to date, so for those the extension checks GitHub
+// Releases: about once a day, and on demand from the "Check for Updates" command. "Once a day" holds while VS Code
 // stays open for days: besides the check shortly after startup, it looks every hour whether a day
 // has passed since the last check. The last-check time is shared by all windows.
 //
 // "Update" installs from the Marketplace by ID, which also turns a .vsix install into a Marketplace
 // one that VS Code updates from then on. If the Marketplace can't be reached (or doesn't have the
-// version yet), it falls back to the checksum-verified .vsix from the release.
+// version yet), it falls back to the .vsix from the release, which is installed only if it matches
+// the SHA-256 checksum GitHub publishes for it.
 // The release workflow publishes to the Marketplace before it creates the GitHub release, so a
 // release on GitHub means the Marketplace has it too.
 
@@ -23,11 +26,13 @@ const LAST_CHECK_KEY = 'agentWorkspace.lastUpdateCheck';
 const SKIPPED_KEY = 'agentWorkspace.skippedVersion';
 
 export function registerUpdater(context: vscode.ExtensionContext): vscode.Disposable[] {
+  const source = installSource(context.extensionPath, context.extension.id);
+  log.info(`installed from: ${source === 'gallery' ? 'the Marketplace (VS Code updates it; no daily check)' : source}`);
   const check = (manual: boolean) => checkForUpdates(context, manual).catch((err) => log.error('update check failed', err));
   const checkIfDue = () => {
     const enabled = vscode.workspace.getConfiguration('agentWorkspace').get<boolean>('checkForUpdates', true);
     const last = context.globalState.get<number>(LAST_CHECK_KEY, 0);
-    if (enabled && context.extensionMode === vscode.ExtensionMode.Production && isCheckDue(last, Date.now())) void check(false);
+    if (enabled && source !== 'gallery' && context.extensionMode === vscode.ExtensionMode.Production && isCheckDue(last, Date.now())) void check(false);
   };
   const timer = setTimeout(checkIfDue, STARTUP_DELAY_MS);
   const hourly = setInterval(checkIfDue, RECHECK_EVERY_MS);
