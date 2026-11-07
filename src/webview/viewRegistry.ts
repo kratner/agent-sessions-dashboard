@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import type { AgentSession } from '../shared/types';
+import type { AgentSession, ListColumnPref } from '../shared/types';
 import { KanbanView } from './components/KanbanView';
 import { ListView } from './components/ListView';
 
@@ -11,6 +11,10 @@ export interface ViewProps {
   terms: string[];
   onOpen(session: AgentSession): void;
   onCopyResume(session: AgentSession): void;
+  /** The List view's column layout (normalized: every known column, in order). */
+  listColumns: ListColumnPref[];
+  /** Save a new layout; undefined resets to the defaults. */
+  onListColumns(columns: ListColumnPref[] | undefined): void;
 }
 
 export interface ViewDefinition {

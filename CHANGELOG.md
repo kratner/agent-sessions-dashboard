@@ -2,6 +2,15 @@
 
 Each version starts with a short summary, then the details. The same text becomes that version's notes on the [Releases page](https://github.com/kratner/agent-sessions-dashboard/releases).
 
+## Unreleased
+
+The List view's columns can now be resized, reordered, hidden and added to.
+
+- **Resizable columns.** Drag a column's right edge to resize it; double-click the edge to reset it. With the edge focused, the arrow keys resize it too (Shift for bigger steps). Session takes whatever width is left, and if the columns are wider than the panel, the list scrolls sideways.
+- **Columns menu.** The **Columns** button at the end of the header row shows or hides each column and moves it up or down. **Reset columns** goes back to the defaults.
+- **New optional columns:** Last prompt, Path (the full folder path), Agent and Started. They start hidden. While Last prompt is shown, a search no longer adds the matching prompt under the session title.
+- **Your layout is saved** across workspaces and restarts.
+
 ## 0.7.4 (2026-11-06)
 
 The new name now runs all the way through: settings, the GitHub repository and the links. Your settings carry over by themselves.

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- Preview harness: loads the built webview (npm run build) with sample sessions, outside VS Code.
      Open in a browser:  preview/index.html?appearance=brand|vscode&theme=dark|light&view=kanban|list&q=search+terms&history=1&indexing=1
+     The List view's column layout is saved in localStorage here (the extension keeps it in globalState).
      theme=light adds VS Code's body.vscode-light class, which switches the brand look to paper.
      The vscode appearance uses VS Code "Dark Modern" theme colors, since there's no real theme here. -->
 <html lang="en">
@@ -103,6 +104,9 @@
 
     // ?q= seeds the search box and ?history=1 turns History on, the way VS Code restores saved webview state.
     var uiState = { query: params.get('q') || '', history: params.get('history') === '1' };
+    function savedColumns() {
+      try { var v = localStorage.getItem('listColumns'); return v ? JSON.parse(v) : undefined; } catch (e) { return undefined; }
+    }
     window.acquireVsCodeApi = function () {
       return {
         getState: function () { return uiState; },
@@ -112,7 +116,11 @@
             window.postMessage({
               type: 'state', sessions: sessions, viewId: params.get('view') || 'kanban',
               sources: ['Claude Code'], appearance: params.get('appearance') || 'brand', historyThreshold: 150,
+              listColumns: savedColumns(),
             }, '*');
+          } else if (m.type === 'setListColumns') {
+            // Stands in for the host's globalState, so a reload shows the saved layout.
+            try { m.columns ? localStorage.setItem('listColumns', JSON.stringify(m.columns)) : localStorage.removeItem('listColumns'); } catch (e) {}
           } else if (m.type === 'historySearch') {
             setTimeout(function () { window.postMessage(historySearch(m), '*'); }, 30);
           }

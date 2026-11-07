@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { AgentSession, DashboardState, HostMessage } from '../../shared/types';
+import type { AgentSession, DashboardState, HostMessage, ListColumnPref } from '../../shared/types';
 import { clampThreshold } from '../historyPaging';
+import { defaultColumns, normalizeColumns } from '../listColumns';
 import { filterSessions, searchTerms } from '../search';
 import { HistoryPanel } from './HistoryPanel';
 import { VIEWS, findView } from '../viewRegistry';
@@ -13,6 +14,8 @@ export function ViewManager() {
   const [state, setState] = useState<DashboardState>();
   const [viewId, setViewId] = useState<string>();
   const [now, setNow] = useState(Date.now());
+  // Undefined until the first state arrives; after that this tab's changes win over the host's echo.
+  const [listColumns, setListColumns] = useState<ListColumnPref[]>();
   const [query, setQuery] = useState(() => getUiState().query ?? '');
   const [history, setHistory] = useState(() => getUiState().history ?? false);
   const [includeSubagents, setIncludeSubagents] = useState(() => getUiState().includeSubagents ?? true);
@@ -31,6 +34,7 @@ export function ViewManager() {
       setNow(Date.now());
       // The saved view only applies on first load; after that the user's choice in this tab wins.
       setViewId((current) => current ?? m.viewId);
+      setListColumns((current) => current ?? normalizeColumns(m.listColumns));
     };
     window.addEventListener('message', onMessage);
     log('info', 'webview script running; sending ready');
@@ -84,6 +88,11 @@ export function ViewManager() {
   const actions = {
     onOpen: (s: AgentSession) => post({ type: 'open', key: s.key }),
     onCopyResume: (s: AgentSession) => post({ type: 'copyResume', key: s.key }),
+    listColumns: listColumns ?? defaultColumns(),
+    onListColumns: (cols: ListColumnPref[] | undefined) => {
+      setListColumns(cols ?? defaultColumns());
+      post({ type: 'setListColumns', columns: cols });
+    },
   };
 
   const allSessions = state?.sessions ?? [];

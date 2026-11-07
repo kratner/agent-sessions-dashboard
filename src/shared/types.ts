@@ -56,10 +56,20 @@ export interface HistoryIndexStatus {
 /** 'brand': the Four Ounces look (ink, or paper under a light theme). 'vscode': follow the editor's color theme. */
 export type Appearance = 'brand' | 'vscode';
 
+/** One List view column in the user's saved layout, in display order. */
+export interface ListColumnPref {
+  id: string;
+  visible: boolean;
+  /** px; absent means the column's default width. */
+  width?: number;
+}
+
 export interface DashboardState {
   type: 'state';
   sessions: AgentSession[];
   viewId: string;
+  /** Saved List view layout (global, not per workspace); absent until the user changes it. */
+  listColumns?: ListColumnPref[];
   sources: string[];
   appearance: Appearance;
   /** Above this many history matches, show a short list first (setting, 100-200). */
@@ -83,6 +93,8 @@ export type WebviewMessage =
   | { type: 'ready' }
   | { type: 'refresh' }
   | { type: 'setView'; viewId: string }
+  /** undefined resets the List view to its default columns. */
+  | { type: 'setListColumns'; columns: ListColumnPref[] | undefined }
   | { type: 'open'; key: string }
   | { type: 'copyResume'; key: string }
   | { type: 'historySearch'; requestId: number; query: string; includeSubagents: boolean; offset: number; limit: number }

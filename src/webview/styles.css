@@ -620,13 +620,20 @@ body[data-appearance='vscode'] .card-waiting {
 
 /* List */
 
+/* Wide layouts scroll sideways instead of squeezing the columns. */
+.list-wrap {
+  overflow-x: auto;
+}
+
 .list {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 12px;
 }
 
 .list th {
+  position: relative;
   padding: 6px 8px;
   border-bottom: 1px solid var(--border);
   color: var(--muted);
@@ -637,10 +644,56 @@ body[data-appearance='vscode'] .card-waiting {
   white-space: nowrap;
 }
 
+.list th .th-label {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The grab area straddles the column's right edge; the line shows on hover, focus and drag. */
+.col-resize {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  bottom: 0;
+  z-index: 1;
+  width: 8px;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.col-resize::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 3px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--border);
+}
+
+.col-resize:hover::after,
+.col-resize:focus-visible::after,
+.list th.resizing .col-resize::after {
+  background: var(--accent, var(--vscode-focusBorder));
+}
+
+.col-resize:focus-visible {
+  outline: none;
+}
+
+.list th.resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
 .list td {
+  overflow: hidden;
   padding: 6px 8px;
   border-bottom: 1px solid var(--border);
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .list tbody tr {
@@ -652,17 +705,34 @@ body[data-appearance='vscode'] .card-waiting {
 }
 
 .list .state-cell {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 6px;
+  min-width: 0;
+}
+
+.list .state-cell .dot {
+  flex: none;
+}
+
+.list .state-reason {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .list .title-cell {
-  width: 100%;
-  max-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
   font-weight: 700;
+}
+
+.list .prompt-cell,
+.list .path-cell {
+  color: var(--muted);
+}
+
+.list .actions-th,
+.list .actions-cell {
+  overflow: visible;
+  text-align: right;
 }
 
 .row-prompt {
@@ -676,6 +746,101 @@ body[data-appearance='vscode'] .card-waiting {
 .list tr.state-ended .title-cell {
   color: var(--muted);
   font-weight: normal;
+}
+
+/* Columns menu */
+
+.columns-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.columns-button {
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.columns-button:hover,
+.columns-button[aria-expanded='true'] {
+  color: var(--fg);
+}
+
+.columns-popover {
+  position: fixed;
+  z-index: 10;
+  max-height: calc(100vh - 16px);
+  overflow-y: auto;
+  width: 230px;
+  padding: 8px 10px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  color: var(--fg);
+  font: 12px var(--font-text);
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none;
+  white-space: normal;
+}
+
+.columns-popover ul {
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.columns-popover li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 0;
+}
+
+.columns-popover li.off label {
+  color: var(--muted);
+}
+
+.columns-popover label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.columns-popover .move {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.columns-popover .move button {
+  width: 22px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.columns-popover .move button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.columns-hint {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 11px;
 }
 
 body[data-appearance='brand'] .list tr.state-waiting {

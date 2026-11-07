@@ -13,6 +13,7 @@ Works with Claude Code today, and built so other agents can be added as sources.
 ## Features
 
 - **Kanban and List views.** Sessions are grouped by state: Waiting on you, Working, Idle and Ended. Switch views in the header; the dashboard remembers your choice for each workspace.
+- **Columns your way.** In the List view, drag a column's edge to resize it, and use **Columns** to show, hide and reorder columns, including optional Last prompt, Path, Agent and Started columns. The layout is saved for all your workspaces.
 - **Know what needs you.** A session waiting for your reply or approval gets its own column, a highlighted card and a count in the status bar. The card says what it's waiting for, such as a permission prompt or an open dialog.
 - **Search.** Filter either view as you type, by title, prompt, folder, where it runs or state. Matches are highlighted.
 - **Search your whole history.** Switch on **History** to search every past agent session on the machine, including what its subagents did, and resume any of them.

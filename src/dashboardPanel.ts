@@ -1,12 +1,13 @@
 import * as vscode from 'vscode';
 import type { HistoryService } from './history/historyService';
 import { log } from './log';
-import type { AgentSession, Appearance, HistoryRef, HostMessage, WebviewMessage } from './shared/types';
+import type { AgentSession, Appearance, HistoryRef, HostMessage, ListColumnPref, WebviewMessage } from './shared/types';
 import type { SessionStore } from './sessionStore';
 
 export const VIEW_TYPE = 'agentSessions.dashboard';
 const ACTIVE_VIEW_KEY = 'agentSessions.activeView';
 const DEFAULT_VIEW = 'kanban';
+const LIST_COLUMNS_KEY = 'agentSessions.listColumns';
 const HISTORY_SOURCE = 'claude-code';
 
 /** The single dashboard tab. The webview owns the list of views; the host only stores which one is active. */
@@ -80,6 +81,10 @@ export class DashboardPanel implements vscode.Disposable {
       case 'setView':
         await this.context.workspaceState.update(ACTIVE_VIEW_KEY, message.viewId);
         break;
+      case 'setListColumns':
+        // Global: a column layout is a personal preference, not a per-project one.
+        await this.context.globalState.update(LIST_COLUMNS_KEY, message.columns);
+        break;
       case 'open': {
         const found = this.store.find(message.key);
         if (found) await found.source.open(found.session);
@@ -122,6 +127,7 @@ export class DashboardPanel implements vscode.Disposable {
       type: 'state',
       sessions: this.store.current,
       viewId: this.context.workspaceState.get<string>(ACTIVE_VIEW_KEY, DEFAULT_VIEW),
+      listColumns: this.context.globalState.get<ListColumnPref[]>(LIST_COLUMNS_KEY),
       sources: this.store.sources.map((s) => s.label),
       appearance: config.get<Appearance>('appearance', 'brand'),
       historyThreshold: config.get<number>('historyResultThreshold', 150),
