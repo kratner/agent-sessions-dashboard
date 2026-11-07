@@ -2,7 +2,7 @@
 
 Each version starts with a short summary, then the details. The same text becomes that version's notes on the [Releases page](https://github.com/kratner/agent-sessions-dashboard/releases).
 
-## Unreleased
+## 0.8.0 (2026-11-06)
 
 The List view's columns can now be resized, reordered, hidden and added to.
 

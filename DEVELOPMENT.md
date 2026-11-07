@@ -82,7 +82,7 @@ The tag starts the Release workflow. It checks that the tag matches `package.jso
 
 VS Code updates Marketplace installs itself. Copies installed from a `.vsix` pick the release up through their daily update check (`src/update/`), which installs it from the Marketplace (falling back to the checksum-verified `.vsix`), and `scripts/install.ps1` / `install.sh` install it fresh.
 
-**Marketplace publishing** uses Trusted Publishing (OIDC), so no access token is stored anywhere. The `fourounces` publisher at [marketplace.visualstudio.com/manage](https://marketplace.visualstudio.com/manage) has a Trusted Publishing policy for owner `kratner`, repository `agent-sessions-dashboard`, workflow `release.yml` (named `release-workflow`). If the repository is ever renamed again, add a policy for the new name before releasing. The workflow needs `permissions: id-token: write`. A published version number can never be reused, so a bad release is fixed by releasing the next version.
+**Marketplace publishing** uses Trusted Publishing (OIDC), so no access token is stored anywhere. The `fourounces` publisher at [marketplace.visualstudio.com/manage](https://marketplace.visualstudio.com/manage) has a Trusted Publishing policy for owner `kratner`, repository `agent-sessions-dashboard`, workflow `release.yml` (named `agent-sessions-release`). If the repository is ever renamed again, add a policy for the new name before releasing. The workflow needs `permissions: id-token: write`. A published version number can never be reused, so a bad release is fixed by releasing the next version.
 
 **Testing a build before it's public:** install the `.vsix` that `npm run package` makes. Give it a version above the published one, or VS Code may auto-update over it from the Marketplace.
 
