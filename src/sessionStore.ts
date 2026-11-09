@@ -3,6 +3,7 @@ import type { AgentSession, SessionState } from './shared/types';
 import { log } from './log';
 import type { SessionSource } from './sources/SessionSource';
 
+const STUCK_MS = 60_000;
 const STATE_ORDER: Record<SessionState, number> = { waiting: 0, busy: 1, idle: 2, ended: 3 };
 
 /** Merges every source into one sorted list and fires only when that list actually changes. */
@@ -15,6 +16,7 @@ export class SessionStore implements vscode.Disposable {
   private readonly subscriptions: vscode.Disposable[] = [];
   private debounce?: NodeJS.Timeout;
   private running = false;
+  private runningSince = 0;
   private queued = false;
 
   constructor(readonly sources: SessionSource[]) {
@@ -39,10 +41,15 @@ export class SessionStore implements vscode.Disposable {
 
   async refresh(): Promise<void> {
     if (this.running) {
-      this.queued = true;
-      return;
+      // A list that never settles would freeze the board for good; after a minute, start over.
+      if (Date.now() - this.runningSince < STUCK_MS) {
+        this.queued = true;
+        return;
+      }
+      log.error(`a session refresh has been running for ${Math.round((Date.now() - this.runningSince) / 1000)}s; starting a new one`);
     }
     this.running = true;
+    const started = (this.runningSince = Date.now());
     try {
       const lists = await Promise.all(
         this.sources.map((s) =>
@@ -54,16 +61,19 @@ export class SessionStore implements vscode.Disposable {
       );
       const next = lists.flat().sort((a, b) => STATE_ORDER[a.state] - STATE_ORDER[b.state] || b.updatedAt - a.updatedAt);
       const snapshot = JSON.stringify(next);
-      if (snapshot !== this.snapshot) {
+      if (this.runningSince === started && snapshot !== this.snapshot) {
         this.snapshot = snapshot;
         this.sessions = next;
         this.emitter.fire(next);
       }
     } finally {
-      this.running = false;
-      if (this.queued) {
-        this.queued = false;
-        void this.refresh();
+      // A newer refresh may have taken over from this one (see STUCK_MS); leave its flag alone.
+      if (this.runningSince === started) {
+        this.running = false;
+        if (this.queued) {
+          this.queued = false;
+          void this.refresh();
+        }
       }
     }
   }

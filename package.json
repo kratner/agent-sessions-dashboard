@@ -2,7 +2,7 @@
   "name": "agent-sessions-dashboard",
   "displayName": "Agent Sessions Dashboard",
   "description": "See every AI coding agent session you have running, as a Kanban board or a list, and spot the one that's waiting on you.",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "publisher": "fourounces",
   "author": {
     "name": "Four Ounces",

@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import type { HistoryService } from './history/historyService';
 import { log } from './log';
+import { summarize } from './shared/summary';
 import type { AgentSession, Appearance, HistoryRef, HostMessage, ListColumnPref, WebviewMessage } from './shared/types';
 import type { SessionStore } from './sessionStore';
 
@@ -9,11 +10,19 @@ const ACTIVE_VIEW_KEY = 'agentSessions.activeView';
 const DEFAULT_VIEW = 'kanban';
 const LIST_COLUMNS_KEY = 'agentSessions.listColumns';
 const HISTORY_SOURCE = 'claude-code';
+/**
+ * The host resends the whole state this often, even when nothing changed. The store only posts on
+ * changes, so a webview that missed one (VS Code dropped the message while the board sat untouched
+ * in the background) would otherwise show stale cards until it was reopened.
+ */
+const HEARTBEAT_MS = 15_000;
 
 /** The single dashboard tab. The webview owns the list of views; the host only stores which one is active. */
 export class DashboardPanel implements vscode.Disposable {
   private static current?: DashboardPanel;
   private readonly disposables: vscode.Disposable[] = [];
+  /** Consecutive state messages VS Code reported as not delivered. */
+  private undelivered = 0;
 
   static show(context: vscode.ExtensionContext, store: SessionStore, history: HistoryService): void {
     if (DashboardPanel.current) {
@@ -46,7 +55,10 @@ export class DashboardPanel implements vscode.Disposable {
       panel.webview.onDidReceiveMessage((m: WebviewMessage) =>
         this.handle(m).catch((err) => log.error(`handling "${m?.type}" from the webview failed`, err)),
       ),
-      store.onDidChange(() => this.post()),
+      store.onDidChange((sessions) => {
+        log.info(`sessions changed: ${summarize(sessions)}`);
+        this.post();
+      }),
       history.onStatus((status) => this.send({ type: 'historyStatus', status })),
       vscode.workspace.onDidChangeConfiguration((e) => {
         if (e.affectsConfiguration('agentSessions.appearance') || e.affectsConfiguration('agentSessions.historyResultThreshold')) this.post();
@@ -61,6 +73,8 @@ export class DashboardPanel implements vscode.Disposable {
       }),
       panel.onDidDispose(() => this.dispose()),
     );
+    const heartbeat = setInterval(() => this.post(), HEARTBEAT_MS);
+    this.disposables.push({ dispose: () => clearInterval(heartbeat) });
     panel.webview.html = this.html();
     log.info(`dashboard webview created (extension at ${context.extensionUri.fsPath})`);
   }
@@ -77,6 +91,13 @@ export class DashboardPanel implements vscode.Disposable {
         break;
       case 'refresh':
         await this.store.refresh();
+        this.post();
+        break;
+      case 'resync':
+        // Focus resyncs happen all the time; only the "went quiet" kind is worth a log line.
+        if (message.reason !== 'focus') log.info(`webview resync: ${message.reason}`);
+        this.post();
+        void this.store.refresh();
         break;
       case 'setView':
         await this.context.workspaceState.update(ACTIVE_VIEW_KEY, message.viewId);
@@ -139,7 +160,18 @@ export class DashboardPanel implements vscode.Disposable {
     // and reloads with 'ready' when shown. But `panel.visible` can be false while the webview is
     // still alive and on screen (e.g. after opening a session moves focus to a Claude tab), and
     // skipping sends then left the board stale until it was reopened.
-    this.panel.webview.postMessage(message).then(undefined, (err) => log.error(`posting ${message.type} to the webview failed`, err));
+    this.panel.webview.postMessage(message).then(
+      (delivered) => {
+        if (message.type !== 'state') return;
+        if (!delivered) {
+          if (this.undelivered++ === 0) log.info('state not delivered (webview hidden or reloading); will keep resending');
+        } else if (this.undelivered > 0) {
+          log.info(`state delivered again after ${this.undelivered} missed`);
+          this.undelivered = 0;
+        }
+      },
+      (err) => log.error(`posting ${message.type} to the webview failed`, err),
+    );
   }
 
   private html(): string {

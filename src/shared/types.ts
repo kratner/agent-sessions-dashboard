@@ -92,6 +92,8 @@ export interface HistoryRef {
 export type WebviewMessage =
   | { type: 'ready' }
   | { type: 'refresh' }
+  /** The webview hasn't heard from the host for a while (or regained focus) and asks for the latest state. */
+  | { type: 'resync'; reason: string }
   | { type: 'setView'; viewId: string }
   /** undefined resets the List view to its default columns. */
   | { type: 'setListColumns'; columns: ListColumnPref[] | undefined }

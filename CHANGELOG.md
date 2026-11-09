@@ -2,6 +2,15 @@
 
 Each version starts with a short summary, then the details. The same text becomes that version's notes on the [Releases page](https://github.com/kratner/agent-sessions-dashboard/releases).
 
+## 0.8.1 (2026-11-08)
+
+The board no longer goes stale when it sits untouched for a while: cards keep up with what your sessions are doing without closing and reopening the dashboard.
+
+- **Regular resend.** VS Code sends the board the full session list every 15 seconds, not only when something changes, so a missed update is corrected within seconds.
+- **Self-heal.** If the board hears nothing for 40 seconds while it's on screen, it asks for the latest state. Coming back to the board (focusing it) also asks.
+- **Never stuck.** A session check that hasn't finished after a minute is abandoned and started again, instead of holding up every later update.
+- **Better logs.** The Agent Sessions output log now notes each change in session counts ("6 (busy 2, idle 4)"), updates VS Code couldn't deliver, and any self-heal, so a stale board can be traced.
+
 ## 0.8.0 (2026-11-06)
 
 The List view's columns can now be resized, reordered, hidden and added to.

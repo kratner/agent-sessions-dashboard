@@ -9,6 +9,8 @@ import { FourOuncesMark, ProductIcon } from './BrandMarks';
 import { getUiState, log, post, setUiState } from '../vscodeApi';
 
 const TICK_MS = 15_000;
+/** The host resends state every 15 s; this long without one means updates stopped arriving. */
+const QUIET_MS = 40_000;
 
 export function ViewManager() {
   const [state, setState] = useState<DashboardState>();
@@ -23,9 +25,11 @@ export function ViewManager() {
 
   useEffect(() => {
     let first = true;
+    let lastState = Date.now();
     const onMessage = (event: MessageEvent<HostMessage>) => {
       const m = event.data;
       if (m?.type !== 'state') return; // history messages are handled by HistoryPanel
+      lastState = Date.now();
       if (first) {
         first = false;
         log('info', `first state received: ${m.sessions.length} sessions`);
@@ -40,9 +44,25 @@ export function ViewManager() {
     log('info', 'webview script running; sending ready');
     post({ type: 'ready' });
     const tick = setInterval(() => setNow(Date.now()), TICK_MS);
+    // Self-heal: if state stops arriving while the board is on screen, ask for it. Coming back to
+    // the board (focus) also asks, so it never shows what it had when you looked away.
+    const watchdog = setInterval(() => {
+      const quiet = Date.now() - lastState;
+      if (document.visibilityState === 'visible' && quiet > QUIET_MS) {
+        lastState = Date.now(); // one request per quiet spell, not one per check
+        post({ type: 'resync', reason: `no update for ${Math.round(quiet / 1000)}s` });
+      }
+    }, 10_000);
+    const onFocus = () => post({ type: 'resync', reason: 'focus' });
+    const onVisible = () => document.visibilityState === 'visible' && onFocus();
+    window.addEventListener('focus', onFocus);
+    document.addEventListener('visibilitychange', onVisible);
     return () => {
       window.removeEventListener('message', onMessage);
+      window.removeEventListener('focus', onFocus);
+      document.removeEventListener('visibilitychange', onVisible);
       clearInterval(tick);
+      clearInterval(watchdog);
     };
   }, []);
 
