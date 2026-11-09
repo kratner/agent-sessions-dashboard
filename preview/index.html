@@ -112,7 +112,16 @@
         getState: function () { return uiState; },
         setState: function (s) { uiState = s; },
         postMessage: function (m) {
-          if (m.type === 'ready') {
+          // The host asks "hide or end the process?" in a VS Code dialog; the preview just hides.
+          if (m.type === 'remove' || m.type === 'unhide') {
+            sessions = sessions.map(function (x) {
+              if (x.key !== m.key) return x;
+              var copy = Object.assign({}, x);
+              if (m.type === 'remove') copy.hidden = true; else delete copy.hidden;
+              return copy;
+            });
+          }
+          if (m.type === 'ready' || m.type === 'remove' || m.type === 'unhide') {
             window.postMessage({
               type: 'state', sessions: sessions, viewId: params.get('view') || 'kanban',
               sources: ['Claude Code'], appearance: params.get('appearance') || 'brand', historyThreshold: 150,

@@ -15,10 +15,10 @@ import {
 import type { ViewProps } from '../viewRegistry';
 import { Highlight } from './Highlight';
 
-const ACTIONS_WIDTH = 104;
+const ACTIONS_WIDTH = 150;
 const KEY_STEP = 10;
 
-export function ListView({ sessions, now, terms, onOpen, onCopyResume, listColumns, onListColumns }: ViewProps) {
+export function ListView({ sessions, now, terms, onOpen, onCopyResume, onRemove, onUnhide, listColumns, onListColumns }: ViewProps) {
   // While dragging, the width lives here and is saved once on release.
   const [drag, setDrag] = useState<{ id: string; width: number }>();
   const shown = listColumns
@@ -171,7 +171,7 @@ export function ListView({ sessions, now, terms, onOpen, onCopyResume, listColum
         </thead>
         <tbody>
           {sessions.map((s) => (
-            <tr key={s.key} className={`state-${s.state}`} tabIndex={0} onClick={() => onOpen(s)} onKeyDown={(e) => e.key === 'Enter' && onOpen(s)}>
+            <tr key={s.key} className={`state-${s.state}${s.hidden ? ' is-hidden' : ''}`} tabIndex={0} onClick={() => onOpen(s)} onKeyDown={(e) => e.key === 'Enter' && onOpen(s)}>
               {shown.map((c) => cell(c.id, s))}
               <td className="actions-cell">
                 {s.state === 'ended' ? (
@@ -185,6 +185,18 @@ export function ListView({ sessions, now, terms, onOpen, onCopyResume, listColum
                     Copy resume
                   </button>
                 ) : null}
+                <button
+                  className={s.hidden ? 'link-button' : 'link-button row-remove'}
+                  title={s.hidden ? 'Put this session back on the board' : 'Remove from the board (hide it, or end its process)'}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (s.hidden) onUnhide(s);
+                    else onRemove(s);
+                  }}
+                  onKeyDown={(e) => e.stopPropagation()}
+                >
+                  {s.hidden ? 'Unhide' : 'Remove'}
+                </button>
               </td>
             </tr>
           ))}

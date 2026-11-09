@@ -4,6 +4,7 @@ import { log } from './log';
 import { summarize } from './shared/summary';
 import type { AgentSession, Appearance, HistoryRef, HostMessage, ListColumnPref, WebviewMessage } from './shared/types';
 import type { SessionStore } from './sessionStore';
+import type { SessionSource } from './sources/SessionSource';
 
 export const VIEW_TYPE = 'agentSessions.dashboard';
 const ACTIVE_VIEW_KEY = 'agentSessions.activeView';
@@ -116,6 +117,14 @@ export class DashboardPanel implements vscode.Disposable {
         await this.copyResume(found?.source.resumeCommand?.(found.session));
         break;
       }
+      case 'remove': {
+        const found = this.store.find(message.key);
+        if (found) await this.remove(found.session, found.source);
+        break;
+      }
+      case 'unhide':
+        await this.store.unhide(message.key);
+        break;
       case 'historySearch': {
         // Sessions already on the dashboard are shown there; history lists the rest.
         const onDashboard = new Set(this.store.current.filter((s) => s.source === HISTORY_SOURCE).map((s) => s.id));
@@ -133,6 +142,40 @@ export class DashboardPanel implements vscode.Disposable {
         await this.copyResume(source?.resumeCommand?.(historySession(message.ref)));
         break;
       }
+    }
+  }
+
+  /**
+   * Hide a session, or end its process. Ending is for orphans: a live process whose app no
+   * longer shows the session (e.g. a Claude Desktop chat that was closed), so nothing else can stop it.
+   */
+  private async remove(session: AgentSession, source: SessionSource): Promise<void> {
+    const HIDE = 'Hide from Board';
+    const END = 'End Process';
+    const canEnd = session.state !== 'ended' && !!session.pid && !!source.endProcess;
+    const working = session.state === 'busy' ? ' It is working right now.' : '';
+    const detail = canEnd
+      ? `Hide: process ${session.pid} keeps running, and the card comes back if the session does anything new.\n\n` +
+        `End Process: stops process ${session.pid} (${session.surface ?? session.sourceLabel}) and hides the card.${working} ` +
+        `The conversation stays on disk, so you can still resume it.`
+      : 'The card comes back if the session does anything new.';
+    const choice = await vscode.window.showWarningMessage(
+      `Remove "${session.title}" from the board?`,
+      { modal: true, detail },
+      ...(canEnd ? [HIDE, END] : [HIDE]),
+    );
+    if (choice === END) {
+      try {
+        await source.endProcess!(session);
+      } catch (err) {
+        log.error(`could not end process ${session.pid}`, err);
+        void vscode.window.showErrorMessage(`Could not end process ${session.pid}: ${(err as Error).message}`);
+        return;
+      }
+      await this.store.hide(session);
+      vscode.window.setStatusBarMessage(`$(check) Ended "${session.title}"`, 3000);
+    } else if (choice === HIDE) {
+      await this.store.hide(session);
     }
   }
 

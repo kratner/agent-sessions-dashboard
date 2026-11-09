@@ -2,6 +2,15 @@
 
 Each version starts with a short summary, then the details. The same text becomes that version's notes on the [Releases page](https://github.com/kratner/agent-sessions-dashboard/releases).
 
+## 0.9.0 (2026-11-09)
+
+You can now take a session off the board, and stop the process of one that nothing else can reach.
+
+- **Remove from the board.** Each card has a **×** in its corner when you hover over it or focus it (**Remove** at the end of the row in the List view). It asks whether to **Hide from Board** or **End Process**.
+- **Hide** leaves the session running and takes its card off the board. The card comes back by itself if the session does anything new. Hidden sessions stay hidden after a restart.
+- **End Process** is for orphans: a session still running in a process you can no longer get to, such as a desktop-app chat that was closed while it waited for input. It stops that process and hides the card. Only a process the board has confirmed belongs to that session can be stopped, never a reused process ID. The conversation stays on disk and can still be resumed.
+- **Hidden sessions aren't counted** in the waiting and working totals, the column counts or the status bar. **N hidden** in the toolbar shows them again, dimmed, each with **Unhide**.
+
 ## 0.8.1 (2026-11-08)
 
 The board no longer goes stale when it sits untouched for a while: cards keep up with what your sessions are doing without closing and reopening the dashboard.

@@ -25,6 +25,8 @@ export interface AgentSession {
   /** Last activity, epoch ms. */
   updatedAt: number;
   lastPrompt?: string;
+  /** The user removed it from the board (shown only with "N hidden" on). */
+  hidden?: boolean;
 }
 
 /** A past session matching a history search. Subagent matches roll up to their parent. */
@@ -99,6 +101,9 @@ export type WebviewMessage =
   | { type: 'setListColumns'; columns: ListColumnPref[] | undefined }
   | { type: 'open'; key: string }
   | { type: 'copyResume'; key: string }
+  /** Ask the user whether to hide the session or end its process. */
+  | { type: 'remove'; key: string }
+  | { type: 'unhide'; key: string }
   | { type: 'historySearch'; requestId: number; query: string; includeSubagents: boolean; offset: number; limit: number }
   | { type: 'openHistory'; ref: HistoryRef }
   | { type: 'copyHistoryResume'; ref: HistoryRef }

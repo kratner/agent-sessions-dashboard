@@ -38,3 +38,34 @@ test('a refresh that never settles does not freeze the store', async () => {
     Date.now = realNow;
   }
 });
+
+test('hide persists, survives a failed list, and new activity brings the session back', async () => {
+  const saved = new Map<string, unknown>();
+  const memory = { get: (k: string, d: unknown) => (saved.has(k) ? saved.get(k) : d), update: async (k: string, v: unknown) => void saved.set(k, v) };
+  let list: () => Promise<AgentSession[]> = async () => [session('a', 'waiting')];
+  const store = new SessionStore([source(() => list())], memory as never);
+  await store.refresh();
+  await store.hide(store.current[0]);
+  assert.equal(store.current[0].hidden, true);
+  assert.deepEqual(saved.get('agentSessions.hiddenSessions'), { 't:a': 1 });
+
+  // A restart reads the saved map.
+  const again = new SessionStore([source(() => list())], memory as never);
+  await again.refresh();
+  assert.equal(again.current[0].hidden, true);
+
+  // A failed list keeps the entry instead of forgetting it.
+  list = () => Promise.reject(new Error('boom'));
+  await again.refresh();
+  assert.deepEqual(saved.get('agentSessions.hiddenSessions'), { 't:a': 1 });
+
+  // New activity: back on the board, entry dropped.
+  list = async () => [{ ...session('a', 'waiting'), updatedAt: 2 }];
+  await again.refresh();
+  assert.equal(again.current[0].hidden, undefined);
+  assert.deepEqual(saved.get('agentSessions.hiddenSessions'), {});
+
+  await again.unhide('t:a'); // no-op when not hidden
+  store.dispose();
+  again.dispose();
+});

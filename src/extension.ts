@@ -21,7 +21,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   const endedWithinMs = () => Math.max(0, config().get<number>('endedWithinHours', 24)) * HOUR_MS;
 
   // Register new agent systems here.
-  const store = new SessionStore([new ClaudeCodeSource(endedWithinMs)]);
+  const store = new SessionStore([new ClaudeCodeSource(endedWithinMs)], context.globalState);
   // Built on the first history search, then cached per machine in the extension's storage.
   const history = new HistoryService(
     path.join(claudeConfigDir(), 'projects'),
@@ -35,8 +35,9 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       statusItem.hide();
       return;
     }
-    const waiting = sessions.filter((s) => s.state === 'waiting').length;
-    const busy = sessions.filter((s) => s.state === 'busy').length;
+    const shown = sessions.filter((s) => !s.hidden);
+    const waiting = shown.filter((s) => s.state === 'waiting').length;
+    const busy = shown.filter((s) => s.state === 'busy').length;
     const parts = [waiting && `${waiting} waiting`, busy && `${busy} working`].filter(Boolean);
     statusItem.text = `$(hubot) ${parts.length ? parts.join(' · ') : 'Agents'}`;
     statusItem.tooltip = 'Open the Agent Sessions dashboard';

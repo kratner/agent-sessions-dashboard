@@ -20,6 +20,8 @@ export interface WebviewUiState {
   history?: boolean;
   /** Include matches inside subagent transcripts (default on). */
   includeSubagents?: boolean;
+  /** Show sessions the user removed from the board, dimmed, with Unhide. */
+  showHidden?: boolean;
 }
 
 export function getUiState(): WebviewUiState {

@@ -9,9 +9,11 @@ interface Props {
   terms: string[];
   onOpen(session: AgentSession): void;
   onCopyResume(session: AgentSession): void;
+  onRemove(session: AgentSession): void;
+  onUnhide(session: AgentSession): void;
 }
 
-export function SessionCard({ session, now, terms, onOpen, onCopyResume }: Props) {
+export function SessionCard({ session, now, terms, onOpen, onCopyResume, onRemove, onUnhide }: Props) {
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -20,7 +22,7 @@ export function SessionCard({ session, now, terms, onOpen, onCopyResume }: Props
   };
   return (
     <article
-      className={`card state-${session.state}`}
+      className={`card state-${session.state}${session.hidden ? ' is-hidden' : ''}`}
       role="button"
       tabIndex={0}
       title={session.cwd}
@@ -30,6 +32,20 @@ export function SessionCard({ session, now, terms, onOpen, onCopyResume }: Props
       <div className="card-title">
         <Highlight text={session.title} terms={terms} />
       </div>
+      {session.hidden ? null : (
+        <button
+          className="card-remove"
+          title="Remove from the board (hide it, or end its process)"
+          aria-label={`Remove ${session.title}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove(session);
+          }}
+          onKeyDown={(e) => e.stopPropagation()}
+        >
+          ×
+        </button>
+      )}
       {session.state === 'waiting' && session.waitingFor ? (
         <div className="card-waiting">
           Waiting for: <Highlight text={session.waitingFor} terms={terms} />
@@ -62,6 +78,19 @@ export function SessionCard({ session, now, terms, onOpen, onCopyResume }: Props
             }}
           >
             Copy resume
+          </button>
+        ) : null}
+        {session.hidden ? (
+          <button
+            className="link-button"
+            title="Put this session back on the board"
+            onClick={(e) => {
+              e.stopPropagation();
+              onUnhide(session);
+            }}
+            onKeyDown={(e) => e.stopPropagation()}
+          >
+            Unhide
           </button>
         ) : null}
       </div>

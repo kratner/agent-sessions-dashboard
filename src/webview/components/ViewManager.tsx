@@ -21,6 +21,7 @@ export function ViewManager() {
   const [query, setQuery] = useState(() => getUiState().query ?? '');
   const [history, setHistory] = useState(() => getUiState().history ?? false);
   const [includeSubagents, setIncludeSubagents] = useState(() => getUiState().includeSubagents ?? true);
+  const [showHidden, setShowHidden] = useState(() => getUiState().showHidden ?? false);
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -108,6 +109,8 @@ export function ViewManager() {
   const actions = {
     onOpen: (s: AgentSession) => post({ type: 'open', key: s.key }),
     onCopyResume: (s: AgentSession) => post({ type: 'copyResume', key: s.key }),
+    onRemove: (s: AgentSession) => post({ type: 'remove', key: s.key }),
+    onUnhide: (s: AgentSession) => post({ type: 'unhide', key: s.key }),
     listColumns: listColumns ?? defaultColumns(),
     onListColumns: (cols: ListColumnPref[] | undefined) => {
       setListColumns(cols ?? defaultColumns());
@@ -115,11 +118,17 @@ export function ViewManager() {
     },
   };
 
-  const allSessions = state?.sessions ?? [];
+  const listed = state?.sessions ?? [];
+  const hiddenCount = listed.filter((s) => s.hidden).length;
+  const allSessions = useMemo(() => (showHidden ? listed : listed.filter((s) => !s.hidden)), [listed, showHidden]);
+  const toggleShowHidden = () => {
+    setShowHidden(!showHidden);
+    setUiState({ showHidden: !showHidden });
+  };
   const terms = useMemo(() => searchTerms(query), [query]);
   const sessions = useMemo(() => filterSessions(allSessions, terms), [allSessions, terms]);
   const searching = terms.length > 0;
-  const count = (st: AgentSession['state']) => sessions.filter((s) => s.state === st).length;
+  const count = (st: AgentSession['state']) => sessions.filter((s) => s.state === st && !s.hidden).length;
   const View = view.component;
 
   return (
@@ -178,6 +187,16 @@ export function ViewManager() {
               <span className={count('waiting') ? 'pill state-waiting nonzero' : 'pill state-waiting'}>{count('waiting')} waiting</span>
               <span className="pill state-busy">{count('busy')} working</span>
               <span className="pill state-idle">{count('idle')} idle</span>
+              {hiddenCount ? (
+                <button
+                  className={showHidden ? 'pill hidden-toggle on' : 'pill hidden-toggle'}
+                  aria-pressed={showHidden}
+                  title={showHidden ? 'Stop showing hidden sessions' : 'Show the sessions you removed from the board'}
+                  onClick={toggleShowHidden}
+                >
+                  {hiddenCount} hidden
+                </button>
+              ) : null}
             </>
           ) : null}
           <button className="icon-button" title="Refresh" aria-label="Refresh" onClick={() => post({ type: 'refresh' })}>

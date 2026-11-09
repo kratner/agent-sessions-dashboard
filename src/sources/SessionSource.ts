@@ -16,4 +16,6 @@ export interface SessionSource extends vscode.Disposable {
   open(session: AgentSession): Promise<void>;
   /** A shell command that resumes the session, if the system supports it. */
   resumeCommand?(session: AgentSession): string | undefined;
+  /** Stop a live session's process, e.g. one orphaned by an app that no longer shows it. */
+  endProcess?(session: AgentSession): Promise<void>;
 }

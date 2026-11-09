@@ -242,6 +242,18 @@ export class ClaudeCodeSource implements SessionSource {
     return session.cwd ? `cd "${session.cwd}"; ${resume}` : resume;
   }
 
+  /**
+   * Ends the session's process. Only a PID this source has verified as the session's own
+   * process gets here (list() leaves pid unset otherwise), so a recycled PID is never killed.
+   * The transcript stays on disk, so the session can still be resumed afterwards.
+   */
+  async endProcess(session: AgentSession): Promise<void> {
+    if (!session.pid || session.state === 'ended') return;
+    log.info(`ending process ${session.pid} for session ${session.id} ("${session.title}")`);
+    process.kill(session.pid);
+    this.emitter.fire();
+  }
+
   dispose(): void {
     clearInterval(this.timer);
     this.watcher?.close();

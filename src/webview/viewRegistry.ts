@@ -11,6 +11,9 @@ export interface ViewProps {
   terms: string[];
   onOpen(session: AgentSession): void;
   onCopyResume(session: AgentSession): void;
+  /** Hide the session, or end its process (the host asks which). */
+  onRemove(session: AgentSession): void;
+  onUnhide(session: AgentSession): void;
   /** The List view's column layout (normalized: every known column, in order). */
   listColumns: ListColumnPref[];
   /** Save a new layout; undefined resets to the defaults. */

@@ -538,6 +538,7 @@ body[data-appearance='vscode'] .count {
 }
 
 .card {
+  position: relative;
   padding: 9px 10px;
   border: 1px solid var(--border);
   border-left: 3px solid var(--state);
@@ -555,7 +556,79 @@ body[data-appearance='brand'] .card.state-waiting {
   box-shadow: 0 0 0 1px var(--waiting), 0 0 14px rgba(201, 162, 74, 0.2);
 }
 
+/* Remove: a small × in the card's corner, shown on hover or keyboard focus. */
+.card-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 22px;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.card:hover .card-remove,
+.card:focus-within .card-remove,
+.card-remove:focus-visible {
+  opacity: 1;
+}
+
+.card-remove:hover {
+  background: var(--surface-hover);
+  color: var(--fg);
+}
+
+/* With "N hidden" on, hidden sessions show dimmed with a dashed edge. */
+.card.is-hidden[class],
+.list tr.is-hidden[class] {
+  opacity: 0.45;
+}
+
+.card.is-hidden {
+  border-style: dashed;
+}
+
+.card.is-hidden[class]:hover,
+.list tr.is-hidden[class]:hover {
+  opacity: 0.8;
+}
+
+.hidden-toggle {
+  border: 1px dashed var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.hidden-toggle.on {
+  background: var(--surface-hover);
+  color: var(--fg);
+}
+
+/* Like the card's ×: Remove shows on the row under the pointer or with keyboard focus. */
+.list tr .row-remove {
+  opacity: 0;
+}
+
+.list tr:hover .row-remove,
+.list tr:focus-within .row-remove,
+.row-remove:focus-visible {
+  opacity: 1;
+}
+
+.list .actions-cell .link-button + .link-button {
+  margin-left: 10px;
+}
+
 .card-title {
+  padding-right: 16px;
   font-weight: 700;
   line-height: 1.35;
   overflow-wrap: anywhere;
