@@ -2,13 +2,13 @@
 
 # Agent Sessions Dashboard
 
-**A Four Ounces tool** · [Source on GitHub](https://github.com/kratner/agent-sessions-dashboard)
+**A Four Ounces tool** · [Source on GitHub](https://github.com/kratner/agent-sessions-dashboard) · [▶ Watch the demo](https://youtu.be/Xb4gvQAwykY)
 
 See every AI coding agent session you have running, as a Kanban board or a list, and spot the one that's waiting on you.
 
 Works with Claude Code today, and built so other agents can be added as sources. Called Agent Workspace Dashboard up to 0.7.2.
 
-![Agent Sessions in action: a session moves to Waiting on you, then search, history search, the List view and the paper look](media/screenshots/demo.gif)
+[![Agent Sessions in action: a session moves to Waiting on you, then search, history search, the List view and the paper look](media/screenshots/demo.gif)](https://youtu.be/Xb4gvQAwykY)
 
 ## Features
 
@@ -61,6 +61,10 @@ There are also one-line installers for Windows and macOS/Linux, which check the 
    - click the robot icon in the status bar, or
    - run **Agent Sessions: Open Dashboard** from the Command Palette.
 3. Start or continue a Claude Code session. Its card appears within a few seconds.
+
+**[▶ Watch the 34-second demo](https://youtu.be/Xb4gvQAwykY)**
+
+[![Watch the demo on YouTube](https://img.youtube.com/vi/Xb4gvQAwykY/maxresdefault.jpg)](https://youtu.be/Xb4gvQAwykY)
 
 ## Searching
 
