@@ -166,6 +166,15 @@ The production build fails if either bundle leaves an import unbundled. The host
 
 The README screenshots in `media/screenshots/` are taken from this page.
 
+### Demo video
+
+`npm run build && npm run demo-video` records the demo from this page, inside a VS Code-like frame (`preview/vscode-frame.html`), so it only ever shows the sample sessions. It writes:
+
+- `release/agent-sessions-demo.mp4`: a silent 1920×1080, 34-second H.264 clip with captions, for YouTube (not committed).
+- `media/screenshots/demo.gif`: the same clip at 960 px and 12 fps, shown at the top of the README and the Marketplace page.
+
+Needs `ffmpeg` with libx264 on your PATH, and Playwright's Chromium (`npx playwright install chromium`).
+
 ## Architecture
 
 | File | Role |

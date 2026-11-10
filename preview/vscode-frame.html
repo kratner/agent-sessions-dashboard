@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!-- A VS Code-like window around the preview harness, for the demo video (scripts/demo-video.mjs).
+     The dashboard inside the iframe is the real built webview with the preview's sample sessions;
+     only this frame (title bar, activity bar, tabs, status bar) is drawn here.
+     Options are passed through to preview/index.html: vscode-frame.html?theme=light etc. -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Agent Sessions demo frame</title>
+  <style>
+    @font-face { font-family: Inter; src: url("../dist/fonts/Inter.latin-TQ5IY2NU.woff2") format("woff2"); font-weight: 100 900; }
+    :root { --bar: #181818; --edge: #2b2b2b; --text: #cccccc; --dim: #8b8b8b; }
+    :root.light { --bar: #f3f3f3; --edge: #e5e5e5; --text: #3b3b3b; --dim: #6f6f6f; }
+    html, body { margin: 0; height: 100%; background: var(--bar); color: var(--text); font: 13px Inter, -apple-system, sans-serif; overflow: hidden; }
+    .win { display: grid; grid-template-rows: 30px 35px 1fr 22px; grid-template-columns: 48px 1fr; height: 100vh; }
+    .title { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; position: relative; border-bottom: 1px solid var(--edge); color: var(--dim); }
+    .lights { position: absolute; left: 12px; display: flex; gap: 8px; }
+    .lights i { width: 12px; height: 12px; border-radius: 50%; display: block; }
+    .activity { grid-row: 2 / 4; border-right: 1px solid var(--edge); display: flex; flex-direction: column; align-items: center; gap: 22px; padding-top: 14px; }
+    .activity span { width: 22px; height: 22px; border: 2px solid var(--dim); border-radius: 5px; opacity: .55; box-sizing: border-box; }
+    .activity span.on { border-color: var(--text); opacity: 1; }
+    .tabs { display: flex; align-items: stretch; border-bottom: 1px solid var(--edge); }
+    .tab { display: flex; align-items: center; gap: 7px; padding: 0 14px; border-right: 1px solid var(--edge); color: var(--dim); }
+    .tab.on { background: #1f1f1f; color: var(--text); border-top: 1px solid #C9A24A; }
+    :root.light .tab.on { background: #ffffff; }
+    .tab img { width: 16px; height: 16px; border-radius: 3px; }
+    iframe { border: 0; width: 100%; height: 100%; display: block; }
+    .status { grid-column: 1 / -1; display: flex; align-items: center; gap: 2px; background: #181818; border-top: 1px solid var(--edge); color: #cccccc; font-size: 12px; }
+    :root.light .status { background: #f8f8f8; color: #3b3b3b; }
+    .status span { padding: 0 9px; height: 100%; display: flex; align-items: center; gap: 5px; }
+    .status .agents.warn { background: #C9A24A; color: #0E0D0B; }
+  </style>
+</head>
+<body>
+  <div class="win">
+    <div class="title">
+      <div class="lights"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
+      api — Visual Studio Code
+    </div>
+    <div class="activity"><span class="on"></span><span></span><span></span><span></span></div>
+    <div class="tabs">
+      <div class="tab on"><img src="../media/icon.png" alt="">Agent Sessions</div>
+      <div class="tab">auth.ts</div>
+      <div class="tab">migrate.sql</div>
+    </div>
+    <iframe id="board" title="Agent Sessions"></iframe>
+    <div class="status"><span>⎇ main</span><span class="agents" id="agents">🤖 Agents</span></div>
+  </div>
+  <script>
+    var q = location.search;
+    if (/theme=light/.test(q)) document.documentElement.classList.add('light');
+    document.getElementById('board').src = 'index.html' + q;
+    // Mirrors the extension's status bar item: "N waiting · N working", highlighted while any wait.
+    window.setAgents = function (waiting, working) {
+      var parts = [waiting && waiting + ' waiting', working && working + ' working'].filter(Boolean);
+      var el = document.getElementById('agents');
+      el.textContent = '🤖 ' + (parts.length ? parts.join(' · ') : 'Agents');
+      el.classList.toggle('warn', waiting > 0);
+    };
+    window.setAgents(2, 2);
+  </script>
+</body>
+</html>

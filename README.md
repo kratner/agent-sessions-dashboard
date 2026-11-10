@@ -8,9 +8,11 @@ See every AI coding agent session you have running, as a Kanban board or a list,
 
 Works with Claude Code today, and built so other agents can be added as sources. Called Agent Workspace Dashboard up to 0.7.2.
 
-![Kanban view: sessions grouped into Waiting on you, Working, Idle and Ended](media/screenshots/kanban-brand.png)
+![Agent Sessions in action: a session moves to Waiting on you, then search, history search, the List view and the paper look](media/screenshots/demo.gif)
 
 ## Features
+
+![Kanban view: sessions grouped into Waiting on you, Working, Idle and Ended](media/screenshots/kanban-brand.png)
 
 - **Kanban and List views.** Sessions are grouped by state: Waiting on you, Working, Idle and Ended. Switch views in the header; the dashboard remembers your choice for each workspace.
 - **Columns your way.** In the List view, drag a column's edge to resize it, and use **Columns** to show, hide and reorder columns, including optional Last prompt, Path, Agent and Started columns. The layout is saved for all your workspaces.
