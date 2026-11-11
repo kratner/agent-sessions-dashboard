@@ -16,6 +16,9 @@
     "theme": "dark"
   },
   "homepage": "https://github.com/kratner/agent-sessions-dashboard#readme",
+  "sponsor": {
+    "url": "https://ko-fi.com/fourounces"
+  },
   "bugs": {
     "url": "https://github.com/kratner/agent-sessions-dashboard/issues"
   },

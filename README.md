@@ -154,6 +154,10 @@ To match sessions to running programs, it also looks up process information, rea
 
 A **Four Ounces** tool: the icon, colors and type come from the Four Ounces brand kit.
 
+## Support
+
+Agent Sessions Dashboard is free. If it saves you time, you can [support it on Ko-fi](https://ko-fi.com/fourounces).
+
 ## License
 
 [MIT](LICENSE) © 2026 Four Ounces. The bundled fonts, Inter and Archivo Black, are under the SIL Open Font License; see `licenses/`.

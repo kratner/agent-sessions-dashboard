@@ -2,6 +2,10 @@
 
 Each version starts with a short summary, then the details. The same text becomes that version's notes on the [Releases page](https://github.com/kratner/agent-sessions-dashboard/releases).
 
+## Unreleased
+
+- **Sponsor button.** The Marketplace page and the Extensions view show a Sponsor button linking to Four Ounces on Ko-fi (ko-fi.com/fourounces). The extension stays free.
+
 ## 0.9.0 (2026-11-09)
 
 You can now take a session off the board, and stop the process of one that nothing else can reach.
